@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json({ limit: '20mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ── Upload de imagem para fal.ai storage ──────────────────
 app.post('/api/upload', upload.single('image'), async (req, res) => {
   try {
     const key = req.headers['x-fal-key'];
@@ -42,49 +43,79 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
 
     res.json({ url: file_url });
   } catch (err) {
+    console.error('[UPLOAD]', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
+// ── ETAPA 1: Gera ensaio com FLUX + ETAPA 2: Face-swap ───
 app.post('/api/generate', async (req, res) => {
   try {
     const key = req.headers['x-fal-key'];
     if (!key) return res.status(401).json({ error: 'Chave API não fornecida.' });
 
-    const { image_url, prompt, negative_prompt, image_size, strength } = req.body;
+    const { face_image_url, prompt, image_size } = req.body;
+    if (!face_image_url || !prompt) {
+      return res.status(400).json({ error: 'face_image_url e prompt são obrigatórios.' });
+    }
 
-    const falResp = await fetch('https://fal.run/fal-ai/flux/dev/image-to-image', {
+    console.log('[STEP 1] Gerando ensaio com FLUX...');
+
+    const fluxResp = await fetch('https://fal.run/fal-ai/flux/dev/image-to-image', {
       method: 'POST',
       headers: { 'Authorization': `Key ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        image_url,
-        prompt,
-        negative_prompt: negative_prompt || 'blurry, bad anatomy, deformed, ugly, low quality, watermark',
-        image_size:      image_size || 'portrait_4_3',
-        num_inference_steps: 35,
-        strength:        strength || 0.72,
-        guidance_scale:  7.5,
-        num_images:      1,
+        image_url:             face_image_url,
+        prompt:                prompt,
+        negative_prompt:       'blurry, bad anatomy, deformed, ugly, low quality, watermark, cartoon, anime, 3d render, bad face, disfigured',
+        image_size:            image_size || 'portrait_4_3',
+        num_inference_steps:   35,
+        strength:              0.85,
+        guidance_scale:        8,
+        num_images:            1,
         enable_safety_checker: true,
       }),
     });
 
-    if (!falResp.ok) {
-      const err = await falResp.json().catch(() => ({}));
-      if (falResp.status === 401) return res.status(401).json({ error: 'Chave API inválida ou sem créditos.' });
-      return res.status(falResp.status).json({ error: err.detail || 'Erro no fal.ai' });
+    if (!fluxResp.ok) {
+      const err = await fluxResp.json().catch(() => ({}));
+      if (fluxResp.status === 401) return res.status(401).json({ error: 'Chave inválida ou sem créditos.' });
+      return res.status(fluxResp.status).json({ error: err.detail || 'Erro no FLUX.' });
     }
 
-    const data = await falResp.json();
-    const imgUrl = data?.images?.[0]?.url || data?.image?.url;
-    if (!imgUrl) return res.status(500).json({ error: 'Resposta inesperada do fal.ai.' });
+    const fluxData  = await fluxResp.json();
+    const ensaioUrl = fluxData?.images?.[0]?.url;
+    if (!ensaioUrl) return res.status(500).json({ error: 'FLUX não retornou imagem.' });
 
-    res.json({ url: imgUrl, seed: data.seed });
+    console.log('[STEP 2] Aplicando rosto original com face-swap...');
+
+    const swapResp = await fetch('https://fal.run/fal-ai/face-swap', {
+      method: 'POST',
+      headers: { 'Authorization': `Key ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        base_image_url:        ensaioUrl,
+        swap_image_url:        face_image_url,
+        base_image_face_index: 0,
+        swap_image_face_index: 0,
+      }),
+    });
+
+    if (!swapResp.ok) {
+      console.warn('[STEP 2] Face-swap falhou, retornando ensaio sem swap.');
+      return res.json({ url: ensaioUrl, swapped: false });
+    }
+
+    const swapData = await swapResp.json();
+    const finalUrl = swapData?.image?.url || swapData?.images?.[0]?.url || ensaioUrl;
+
+    res.json({ url: finalUrl, swapped: true });
   } catch (err) {
+    console.error('[GENERATE]', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
+// ── Verifica chave ────────────────────────────────────────
 app.get('/api/credits', async (req, res) => {
   try {
     const key = req.headers['x-fal-key'];
