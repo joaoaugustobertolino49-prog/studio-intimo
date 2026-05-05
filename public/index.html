@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Studio Íntimo IA</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,471 +14,328 @@
   --border:#e8d5de;--surface:#fff;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
-.app{max-width:780px;margin:0 auto;padding:1.5rem 1rem 4rem}
+.app{max-width:700px;margin:0 auto;padding:2rem 1rem 4rem}
 header{text-align:center;padding:2rem 0 2.5rem}
 .brand{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;letter-spacing:0.1em;color:var(--rose-dark)}
 .brand em{color:var(--rose);font-style:italic}
 .tagline{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:8px}
-.powered{font-size:11px;color:var(--border);margin-top:4px}
+.powered{font-size:11px;color:#ccc;margin-top:4px}
 .powered span{color:var(--gold)}
 
-/* STEPPER */
-.stepper{display:flex;align-items:flex-start;margin-bottom:2rem;padding:0 0.5rem}
-.step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
-.step-circle{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--muted);background:var(--surface);transition:all 0.3s;z-index:1}
-.step.active .step-circle{border-color:var(--rose);color:var(--rose);background:var(--rose-light);box-shadow:0 0 0 4px rgba(201,64,112,0.1)}
-.step.done .step-circle{background:var(--rose);border-color:var(--rose);color:#fff}
-.step-label{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:5px;text-align:center}
-.step.active .step-label,.step.done .step-label{color:var(--rose)}
-.step-line{position:absolute;top:16px;left:calc(50% + 16px);right:calc(-50% + 16px);height:1px;background:var(--border)}
-.step:last-child .step-line{display:none}
-.step.done .step-line{background:var(--rose)}
-
-/* PANELS */
-.panel{display:none;animation:fadeUp 0.3s ease}
-.panel.active{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-/* CARDS */
 .card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:1.75rem;margin-bottom:1.25rem;box-shadow:0 2px 12px rgba(201,64,112,0.04)}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--rose-dark);margin-bottom:5px}
-.card-sub{font-size:13px;color:var(--muted);margin-bottom:1.25rem;line-height:1.6}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose-dark);margin-bottom:5px}
+.card-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem}
 
 /* API KEY */
-.api-row{display:flex;gap:8px;align-items:center}
-.api-input-wrap{flex:1;position:relative}
-.api-input-wrap input{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.75rem 2.8rem 0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fafafa;color:var(--dark);outline:none;transition:all 0.2s}
-.api-input-wrap input:focus{border-color:var(--rose);background:#fff}
-.eye-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:4px}
-.verify-btn{padding:0.75rem 1.1rem;border-radius:10px;background:var(--rose-light);border:0.5px solid var(--border);color:var(--rose-dark);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all 0.2s}
-.verify-btn:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
-.key-status{display:none;align-items:center;gap:5px;font-size:12px;margin-top:6px;padding:4px 10px;border-radius:20px;width:fit-content}
-.key-ok{background:#f0faf0;color:#2a7a2a;border:0.5px solid #90c890}
-.key-err{background:#fff0f0;color:#8a2020;border:0.5px solid #f0a0a0}
-.api-link{font-size:12px;color:var(--rose);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:8px}
-.api-link:hover{text-decoration:underline}
+.api-row{display:flex;gap:8px}
+.api-wrap{flex:1;position:relative}
+.api-wrap input{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.75rem 2.5rem 0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fafafa;outline:none;transition:all 0.2s;color:var(--dark)}
+.api-wrap input:focus{border-color:var(--rose);background:#fff}
+.eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:15px;color:var(--muted)}
+.vbtn{padding:0.75rem 1rem;border-radius:10px;background:var(--rose-light);border:0.5px solid var(--border);color:var(--rose-dark);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all 0.2s}
+.vbtn:hover{background:var(--rose);color:#fff}
+.kstatus{display:none;font-size:12px;margin-top:6px;padding:4px 10px;border-radius:20px;width:fit-content}
+.kok{background:#f0faf0;color:#2a7a2a;border:0.5px solid #90c890}
+.kerr{background:#fff0f0;color:#8a2020;border:0.5px solid #f0a0a0}
+.alink{font-size:12px;color:var(--rose);text-decoration:none;display:inline-block;margin-top:8px}
+.alink:hover{text-decoration:underline}
 
 /* UPLOAD */
-.upload-zone{border:1.5px dashed var(--border);border-radius:12px;padding:2.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;background:#fafafa}
-.upload-zone:hover{border-color:var(--rose);background:var(--rose-light)}
-.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
-.u-icon{font-size:2.2rem;margin-bottom:0.75rem;display:block}
-.u-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--rose-dark)}
-.u-sub{font-size:12px;color:var(--muted);margin-top:4px}
-.preview-wrap{margin-top:1rem;display:none;position:relative;border-radius:10px;overflow:hidden;border:0.5px solid var(--border)}
-.preview-wrap img{width:100%;max-height:300px;object-fit:cover;display:block}
-.preview-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,10,18,0.75));padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center}
-.preview-badge{color:#fff;font-size:12px}
-.change-btn{font-size:11px;background:rgba(255,255,255,0.2);color:#fff;border:0.5px solid rgba(255,255,255,0.4);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.upzone{border:1.5px dashed var(--border);border-radius:12px;padding:2.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.25s;position:relative;background:#fafafa}
+.upzone:hover{border-color:var(--rose);background:var(--rose-light)}
+.upzone input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
+.uico{font-size:2rem;display:block;margin-bottom:0.5rem}
+.utitle{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--rose-dark)}
+.usub{font-size:12px;color:var(--muted);margin-top:4px}
+.prevwrap{margin-top:1rem;display:none;border-radius:10px;overflow:hidden;border:0.5px solid var(--border);position:relative}
+.prevwrap img{width:100%;max-height:260px;object-fit:cover;display:block}
+.prevover{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,10,18,0.75));padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center}
+.prevbadge{color:#fff;font-size:12px}
+.chbtn{font-size:11px;background:rgba(255,255,255,0.2);color:#fff;border:0.5px solid rgba(255,255,255,0.4);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-/* MODELS */
-.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media(max-width:520px){.model-grid{grid-template-columns:repeat(2,1fr)}}
-.model-card{border:1px solid var(--border);border-radius:12px;padding:1.1rem 0.85rem;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--surface)}
-.model-card:hover{border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,64,112,0.12)}
-.model-card.sel{border-color:var(--rose);background:var(--rose-light)}
-.mc-emoji{font-size:1.9rem;display:block;margin-bottom:0.4rem}
-.mc-name{font-size:13px;font-weight:500;margin-bottom:3px;color:var(--dark)}
-.model-card.sel .mc-name{color:var(--rose-dark)}
-.mc-desc{font-size:11px;color:var(--muted);line-height:1.4}
+/* PROMPT AREA */
+.prompt-area{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.9rem 1rem;font-family:'DM Sans',sans-serif;font-size:14px;background:#fafafa;color:var(--dark);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border 0.2s}
+.prompt-area:focus{border-color:var(--rose);background:#fff}
 
-/* PILLS */
-.pill-label{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;margin-top:1.2rem;display:flex;align-items:center;gap:6px}
-.pill-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.pill-group{display:flex;flex-wrap:wrap;gap:7px}
-.pill{border:1px solid var(--border);border-radius:20px;padding:6px 15px;font-size:12px;cursor:pointer;transition:all 0.15s;background:var(--surface);color:var(--muted)}
-.pill:hover{border-color:var(--rose);color:var(--rose)}
-.pill.sel{background:var(--rose);color:#fff;border-color:var(--rose)}
+/* SUGESTÕES */
+.sug-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;margin-top:1.25rem;display:block}
+.sug-grid{display:flex;flex-wrap:wrap;gap:6px}
+.sug{border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all 0.15s;background:var(--surface);color:var(--muted)}
+.sug:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
 
-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;margin-top:1.2rem}
-textarea{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:13px;background:#fafafa;color:var(--dark);outline:none;resize:vertical;min-height:70px;transition:border 0.2s;line-height:1.6}
-textarea:focus{border-color:var(--rose);background:#fff}
+/* PROPORÇÃO */
+.prop-row{display:flex;gap:8px;margin-top:0.5rem}
+.prop{flex:1;border:1px solid var(--border);border-radius:8px;padding:0.6rem;text-align:center;cursor:pointer;font-size:12px;color:var(--muted);transition:all 0.2s;background:var(--surface)}
+.prop:hover{border-color:var(--rose);color:var(--rose)}
+.prop.sel{border-color:var(--rose);background:var(--rose);color:#fff}
 
-/* BUTTONS */
-.nav-row{display:flex;gap:10px;margin-top:1.75rem}
-.btn{flex:1;padding:0.85rem;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;border:0.5px solid var(--border)}
-.btn-outline{background:var(--surface);color:var(--muted)}
-.btn-outline:hover{border-color:var(--rose);color:var(--rose)}
-.btn-primary{background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;border:none;font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:0.08em;box-shadow:0 4px 16px rgba(201,64,112,0.3)}
-.btn-primary:hover{box-shadow:0 6px 24px rgba(201,64,112,0.45);transform:translateY(-1px)}
+/* GERAR BTN */
+.genbtn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;border:none;border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(201,64,112,0.35);margin-top:1.5rem}
+.genbtn:hover{box-shadow:0 6px 28px rgba(201,64,112,0.5);transform:translateY(-1px)}
+.genbtn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* INFO */
 .info{background:var(--gold-light);border:0.5px solid #d4a96a;border-radius:10px;padding:0.9rem 1.1rem;font-size:12px;color:#6b4a1a;line-height:1.7;margin-top:0.75rem}
-.error-box{background:#fff0f0;border:0.5px solid #f0a0a0;border-radius:10px;padding:0.9rem 1.1rem;font-size:13px;color:#8a2020;display:none;margin-top:0.75rem;line-height:1.6}
+.errbox{background:#fff0f0;border:0.5px solid #f0a0a0;border-radius:10px;padding:0.9rem 1.1rem;font-size:13px;color:#8a2020;display:none;margin-top:0.75rem;line-height:1.6}
 
 /* LOADING */
-.loading-card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:3rem 2rem;text-align:center;display:none}
-.dots{display:inline-flex;gap:8px;margin-bottom:1.25rem}
+.loadcard{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:3rem 2rem;text-align:center;display:none;margin-bottom:1.25rem}
+.dots{display:inline-flex;gap:8px;margin-bottom:1rem}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--rose);animation:pulse 1.4s infinite}
 .dot:nth-child(2){animation-delay:0.22s}
 .dot:nth-child(3){animation-delay:0.44s}
-@keyframes pulse{0%,100%{transform:scale(0.55);opacity:0.25}50%{transform:scale(1);opacity:1}}
-.loading-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--rose-dark);margin-bottom:0.4rem}
-.loading-msg{font-size:13px;color:var(--muted);font-style:italic;margin-top:0.5rem}
-.progress-wrap{margin-top:1.5rem;background:var(--border);border-radius:4px;height:3px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--rose-light),var(--rose));border-radius:4px;transition:width 0.8s ease;width:0%}
+@keyframes pulse{0%,100%{transform:scale(0.5);opacity:0.2}50%{transform:scale(1);opacity:1}}
+.loadtitle{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--rose-dark)}
+.loadmsg{font-size:13px;color:var(--muted);font-style:italic;margin-top:0.5rem}
+.progwrap{margin-top:1.5rem;background:var(--border);border-radius:4px;height:3px;overflow:hidden}
+.progfill{height:100%;background:linear-gradient(90deg,var(--rose-light),var(--rose));border-radius:4px;transition:width 1s ease;width:0%}
 
 /* RESULT */
-.result-card{display:none;background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(201,64,112,0.12)}
-.result-img{width:100%;display:block;max-height:75vh;object-fit:contain;background:#1a0a12}
-.result-actions{padding:1.25rem 1.5rem;display:flex;gap:8px;flex-wrap:wrap;border-top:0.5px solid var(--border)}
-.act-btn{padding:0.65rem 1.2rem;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;border:0.5px solid var(--border);background:var(--surface);color:var(--dark)}
-.act-btn:hover{border-color:var(--rose);color:var(--rose)}
-.act-btn.primary{background:var(--rose);color:#fff;border-color:var(--rose)}
-.act-btn.primary:hover{background:var(--rose-dark)}
+.resultcard{display:none;background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(201,64,112,0.15);margin-bottom:1.25rem}
+.resultimg{width:100%;display:block;background:#1a0a12}
+.resultactions{padding:1.25rem 1.5rem;display:flex;gap:8px;flex-wrap:wrap;border-top:0.5px solid var(--border)}
+.actbtn{padding:0.65rem 1.2rem;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;border:0.5px solid var(--border);background:var(--surface);color:var(--dark)}
+.actbtn:hover{border-color:var(--rose);color:var(--rose)}
+.actbtn.p{background:var(--rose);color:#fff;border-color:var(--rose)}
+.actbtn.p:hover{background:var(--rose-dark)}
 </style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <div class="brand">Studio <em>Íntimo</em> IA</div>
-    <div class="tagline">Ensaios sensuais gerados por inteligência artificial</div>
-    <div class="powered">Powered by <span>fal.ai · FLUX + Face-Swap</span></div>
-  </header>
 
-  <div class="stepper">
-    <div class="step active" id="s0"><div class="step-circle">1</div><div class="step-label">Configurar</div><div class="step-line"></div></div>
-    <div class="step" id="s1"><div class="step-circle">2</div><div class="step-label">Modelo</div><div class="step-line"></div></div>
-    <div class="step" id="s2"><div class="step-circle">3</div><div class="step-label">Estilo</div><div class="step-line"></div></div>
-    <div class="step" id="s3"><div class="step-circle">4</div><div class="step-label">Gerar</div><div class="step-line"></div></div>
+<header>
+  <div class="brand">Studio <em>Íntimo</em> IA</div>
+  <div class="tagline">Ensaios sensuais gerados por inteligência artificial</div>
+  <div class="powered">Powered by <span>FLUX Kontext · fal.ai</span></div>
+</header>
+
+<!-- CHAVE API -->
+<div class="card">
+  <div class="card-title">🔑 Chave API — fal.ai</div>
+  <div class="card-sub">Salva só no seu navegador. Nunca sai do seu computador.</div>
+  <div class="api-row">
+    <div class="api-wrap">
+      <input type="password" id="apiKey" placeholder="fal-key-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" oninput="onKey()">
+      <button class="eye" onclick="toggleEye()">👁</button>
+    </div>
+    <button class="vbtn" onclick="verifyKey()">Verificar</button>
   </div>
+  <div class="kstatus kok" id="kok">✓ Chave válida</div>
+  <div class="kstatus kerr" id="kerr">✗ Chave inválida ou sem créditos</div>
+  <a class="alink" href="https://fal.ai/dashboard/keys" target="_blank">→ Criar chave em fal.ai/dashboard/keys</a>
+</div>
 
-  <!-- STEP 1 -->
-  <div class="panel active" id="p0">
-    <div class="card">
-      <div class="card-title">🔑 Chave API — fal.ai</div>
-      <div class="card-sub">Sua chave fica salva só no navegador. Nunca sai do seu computador.</div>
-      <div class="api-row">
-        <div class="api-input-wrap">
-          <input type="password" id="apiKey" placeholder="fal-key-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" oninput="onKeyInput()">
-          <button class="eye-btn" onclick="toggleEye()">👁</button>
-        </div>
-        <button class="verify-btn" onclick="verifyKey()">Verificar</button>
-      </div>
-      <div class="key-status key-ok" id="keyOk">✓ Chave válida</div>
-      <div class="key-status key-err" id="keyErr">✗ Chave inválida ou sem créditos</div>
-      <a class="api-link" href="https://fal.ai/dashboard/keys" target="_blank">→ Criar chave em fal.ai/dashboard/keys</a>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📷 Sua foto de referência</div>
-      <div class="card-sub">A IA usa seu rosto para gerar o ensaio. Envie uma foto com o rosto bem visível e boa iluminação.</div>
-      <div class="upload-zone" id="upZone">
-        <input type="file" accept="image/jpeg,image/png,image/webp" id="fileInput" onchange="handleFile(event)">
-        <span class="u-icon">📸</span>
-        <div class="u-title">Clique ou arraste sua foto aqui</div>
-        <div class="u-sub">JPG · PNG · WEBP · máx 10MB · rosto visível</div>
-      </div>
-      <div class="preview-wrap" id="prevWrap">
-        <img id="prevImg" src="" alt="Preview">
-        <div class="preview-overlay">
-          <div class="preview-badge">✓ Foto carregada</div>
-          <label for="fileInput" style="margin:0"><div class="change-btn">Trocar foto</div></label>
-        </div>
-      </div>
-      <div class="info">
-        🤖 <strong>Como funciona:</strong> A IA gera o ensaio no estilo escolhido e depois aplica automaticamente o seu rosto na imagem gerada, preservando suas características físicas.
-      </div>
-    </div>
-    <div id="err0" class="error-box"></div>
-    <div class="nav-row">
-      <button class="btn btn-primary" onclick="goStep1()">Próximo — Escolher Modelo →</button>
-    </div>
+<!-- FOTO -->
+<div class="card">
+  <div class="card-title">📷 Sua foto de referência</div>
+  <div class="card-sub">A IA usa seu rosto para criar o ensaio. Foto com rosto visível e boa iluminação dá os melhores resultados.</div>
+  <div class="upzone">
+    <input type="file" accept="image/jpeg,image/png,image/webp" id="fileInput" onchange="handleFile(event)">
+    <span class="uico">📸</span>
+    <div class="utitle">Clique ou arraste sua foto</div>
+    <div class="usub">JPG · PNG · WEBP · máx 10MB</div>
   </div>
-
-  <!-- STEP 2 -->
-  <div class="panel" id="p1">
-    <div class="card">
-      <div class="card-title">✨ Modelo de ensaio</div>
-      <div class="card-sub">Define a estética, ambiente e iluminação. Seu rosto será aplicado em cima do modelo escolhido.</div>
-      <div class="model-grid">
-        <div class="model-card sel" onclick="selModel(this,'Luxo Editorial','editorial fashion photography, dramatic studio lighting, seamless neutral background, haute couture aesthetic, professional model, vogue magazine')">
-          <span class="mc-emoji">✨</span><div class="mc-name">Luxo Editorial</div><div class="mc-desc">Alta moda, fundo neutro, luz dramática</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Boudoir Íntimo','intimate boudoir photography, soft window light, luxurious bedroom, silk sheets, rose petals, warm golden tones, romantic sensual atmosphere')">
-          <span class="mc-emoji">🌹</span><div class="mc-name">Boudoir Íntimo</div><div class="mc-desc">Suave, romântico, quarto luxuoso</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Praia & Verão','sensual beach photography, golden hour sunlight, fine white sand, crystal ocean, warm summer, tropical lifestyle')">
-          <span class="mc-emoji">🌊</span><div class="mc-name">Praia & Verão</div><div class="mc-desc">Luz natural, praia tropical</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Dark Glam','dark glamour photography, black background, lace velvet textures, moody cinematic lighting, film noir, high contrast, mystery')">
-          <span class="mc-emoji">🖤</span><div class="mc-name">Dark Glam</div><div class="mc-desc">Fundo escuro, renda, cinematográfico</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Arte & Natureza','fine art photography, soft natural light, botanical garden, flower petals, ethereal dreamy atmosphere, artistic elegant')">
-          <span class="mc-emoji">🍃</span><div class="mc-name">Arte & Natureza</div><div class="mc-desc">Artístico, flores, luz etérea</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Neon Cyber','cyberpunk portrait, neon lights purple pink blue, urban night, rain reflections, futuristic aesthetic, vivid colors')">
-          <span class="mc-emoji">💜</span><div class="mc-name">Neon Cyber</div><div class="mc-desc">Neon, futurista, noite urbana</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Luxo Árabe','arabian nights luxury, ornate gold decor, jewel tones, silk curtains, opulent palace, warm exotic light, mysterious')">
-          <span class="mc-emoji">🏺</span><div class="mc-name">Luxo Árabe</div><div class="mc-desc">Palácio, ouro, exótico</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Vintage Pin-up','vintage pin-up 1950s, pastel colors, polka dots, red lips, retro aesthetic, playful flirty pose, film grain')">
-          <span class="mc-emoji">🎀</span><div class="mc-name">Vintage Pin-up</div><div class="mc-desc">Retrô anos 50, pastel, divertido</div>
-        </div>
-        <div class="model-card" onclick="selModel(this,'Inverno & Neve','winter fashion photography, snow landscape, fur coat, frozen scenery, cold blue white tones, cozy firelight contrast')">
-          <span class="mc-emoji">❄️</span><div class="mc-name">Inverno & Neve</div><div class="mc-desc">Neve, pele, frio elegante</div>
-        </div>
-      </div>
-    </div>
-    <div class="nav-row">
-      <button class="btn btn-outline" onclick="goTo(0)">← Voltar</button>
-      <button class="btn btn-primary" onclick="goTo(2)">Próximo — Personalizar →</button>
-    </div>
-  </div>
-
-  <!-- STEP 3 -->
-  <div class="panel" id="p2">
-    <div class="card">
-      <div class="card-title">🎨 Detalhes do ensaio</div>
-      <div class="card-sub">Escolha vestuário, pose e iluminação. Seu rosto e características físicas serão preservados automaticamente.</div>
-
-      <div class="pill-label">Vestuário</div>
-      <div class="pill-group" id="pg-vest">
-        <div class="pill sel" onclick="selPill(this,'vest','wearing elegant black lace lingerie')">Lingerie preta</div>
-        <div class="pill" onclick="selPill(this,'vest','wearing delicate white lace lingerie')">Lingerie branca</div>
-        <div class="pill" onclick="selPill(this,'vest','wearing a flowing silk evening gown')">Vestido de seda</div>
-        <div class="pill" onclick="selPill(this,'vest','wearing a sleek bodysuit')">Body</div>
-        <div class="pill" onclick="selPill(this,'vest','wearing a tiny string bikini')">Biquíni</div>
-        <div class="pill" onclick="selPill(this,'vest','wearing a lace corset with stockings')">Corpete + meia</div>
-        <div class="pill" onclick="selPill(this,'vest','wearing a sheer silk robe partially open')">Robe transparente</div>
-        <div class="pill" onclick="selPill(this,'vest','artistic tasteful implied nudity, strategically covered')">Nude artístico</div>
-      </div>
-
-      <div class="pill-label">Pose</div>
-      <div class="pill-group" id="pg-pose">
-        <div class="pill sel" onclick="selPill(this,'pose','confident standing pose, hand on hip')">Em pé — confiante</div>
-        <div class="pill" onclick="selPill(this,'pose','lying down seductively, arched back')">Deitada — sedutora</div>
-        <div class="pill" onclick="selPill(this,'pose','seated with legs crossed, elegant')">Sentada — elegante</div>
-        <div class="pill" onclick="selPill(this,'pose','back view, looking over shoulder')">De costas</div>
-        <div class="pill" onclick="selPill(this,'pose','kneeling gracefully')">Ajoelhada</div>
-        <div class="pill" onclick="selPill(this,'pose','reclining on side, feminine silhouette')">Reclinada de lado</div>
-      </div>
-
-      <div class="pill-label">Iluminação</div>
-      <div class="pill-group" id="pg-luz">
-        <div class="pill sel" onclick="selPill(this,'luz','dramatic chiaroscuro lighting, deep shadows')">Dramática</div>
-        <div class="pill" onclick="selPill(this,'luz','soft diffused natural window light')">Suave & Natural</div>
-        <div class="pill" onclick="selPill(this,'luz','warm golden hour backlight, sun halo')">Golden Hour</div>
-        <div class="pill" onclick="selPill(this,'luz','professional studio Rembrandt lighting')">Estúdio</div>
-        <div class="pill" onclick="selPill(this,'luz','warm candlelight glow, low key')">Luz de vela</div>
-        <div class="pill" onclick="selPill(this,'luz','neon colored gels, experimental')">Neon colorido</div>
-      </div>
-
-      <div class="pill-label">Proporção</div>
-      <div class="pill-group" id="pg-size">
-        <div class="pill sel" onclick="selPill(this,'imgSize','portrait_4_3')">Retrato 4:3</div>
-        <div class="pill" onclick="selPill(this,'imgSize','portrait_16_9')">Story 9:16</div>
-        <div class="pill" onclick="selPill(this,'imgSize','square_hd')">Quadrado HD</div>
-      </div>
-
-      <label>Detalhes extras (opcional)</label>
-      <textarea id="extras" placeholder="Ex: tatuagem no braço, maquiagem smokey eye, colar dourado, unhas longas vermelhas..."></textarea>
-    </div>
-    <div class="nav-row">
-      <button class="btn btn-outline" onclick="goTo(1)">← Voltar</button>
-      <button class="btn btn-primary" onclick="goTo(3)">Próximo — Gerar →</button>
-    </div>
-  </div>
-
-  <!-- STEP 4 -->
-  <div class="panel" id="p3">
-    <div class="card">
-      <div class="card-title">🚀 Gerar ensaio</div>
-      <div class="card-sub" id="genSub">FLUX gera o ensaio → Face-Swap aplica seu rosto → resultado final</div>
-      <div class="info">
-        🤖 <strong>2 etapas automáticas:</strong><br>
-        1️⃣ FLUX gera o ensaio no estilo escolhido (~15s)<br>
-        2️⃣ Face-Swap coloca seu rosto na imagem (~5s)<br>
-        Total: ~20–30 segundos · ~US$ 0,04 por geração
-      </div>
-      <div id="errGen" class="error-box"></div>
-    </div>
-
-    <div class="loading-card" id="loadingCard">
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      <div class="loading-title" id="loadTitle">Gerando seu ensaio...</div>
-      <div class="loading-msg" id="loadMsg">Enviando foto para fal.ai...</div>
-      <div class="progress-wrap"><div class="progress-fill" id="progFill"></div></div>
-    </div>
-
-    <div class="result-card" id="resultCard">
-      <img id="resultImg" class="result-img" src="" alt="Ensaio gerado">
-      <div class="result-actions">
-        <button class="act-btn primary" onclick="downloadImg()">⬇ Baixar</button>
-        <button class="act-btn" onclick="window.open(state.resultUrl,'_blank')">🔗 Abrir</button>
-        <button class="act-btn" onclick="genAgain()">↺ Gerar novamente</button>
-        <button class="act-btn" onclick="goTo(0)">＋ Novo ensaio</button>
-      </div>
-    </div>
-
-    <div class="nav-row">
-      <button class="btn btn-outline" onclick="goTo(2)">← Ajustar</button>
-      <button class="btn btn-primary" id="genBtn" onclick="generate()">✨ Gerar Ensaio Agora</button>
+  <div class="prevwrap" id="prevwrap">
+    <img id="previmg" src="" alt="">
+    <div class="prevover">
+      <div class="prevbadge">✓ Foto carregada</div>
+      <label for="fileInput" style="margin:0"><div class="chbtn">Trocar</div></label>
     </div>
   </div>
 </div>
 
+<!-- PROMPT -->
+<div class="card">
+  <div class="card-title">✍️ Descreva o ensaio</div>
+  <div class="card-sub">Escreva o que você quer: roupa, cenário, pose, iluminação. A IA mantém seu rosto e gera tudo do zero.</div>
+
+  <textarea class="prompt-area" id="prompt" placeholder="Ex: ensaio sensual em quarto luxuoso com lingerie preta de renda, deitada na cama de lençóis de seda, iluminação suave de vela, fundo com flores rosas..."></textarea>
+
+  <span class="sug-label">Sugestões rápidas — clique para adicionar ao prompt</span>
+  <div class="sug-grid">
+    <div class="sug" onclick="addSug('ensaio sensual boudoir em quarto luxuoso, lingerie de renda preta, lençóis de seda, luz de vela suave')">🌹 Boudoir íntimo</div>
+    <div class="sug" onclick="addSug('ensaio sensual na praia ao pôr do sol, biquíni fio dental branco, areia fina, luz dourada do golden hour')">🌊 Praia & Sol</div>
+    <div class="sug" onclick="addSug('ensaio editorial de luxo, lingerie de grife, fundo branco neutro, iluminação dramática de estúdio profissional')">✨ Editorial luxo</div>
+    <div class="sug" onclick="addSug('ensaio dark glam, body de renda preta, fundo escuro, iluminação cinematográfica, estética noir')">🖤 Dark Glam</div>
+    <div class="sug" onclick="addSug('ensaio artístico com flores, nude artístico tasteful, jardim botânico, luz natural difusa, etéreo')">🍃 Arte & Natureza</div>
+    <div class="sug" onclick="addSug('ensaio neon cyberpunk, body metálico, luzes neon roxas e rosas, cidade à noite, futurista')">💜 Neon Cyber</div>
+    <div class="sug" onclick="addSug('ensaio luxo árabe, vestido longo dourado, palácio ornamentado, véu transparente, iluminação quente')">🏺 Luxo Árabe</div>
+    <div class="sug" onclick="addSug('ensaio vintage pin-up anos 50, biquíni de bolinhas, cores pastéis, pose retrô divertida, grão de filme')">🎀 Vintage Pin-up</div>
+    <div class="sug" onclick="addSug('ensaio em piscina infinita com vista para o mar, biquíni colorido, luz tropical, resort de luxo')">🏊 Piscina & Resort</div>
+    <div class="sug" onclick="addSug('ensaio íntimo em banheira com espuma, nude artístico, velas ao redor, pétalas de rosa, luz quente')">🛁 Banheira sensual</div>
+  </div>
+
+  <span class="sug-label" style="margin-top:1.5rem">Proporção da imagem</span>
+  <div class="prop-row">
+    <div class="prop sel" onclick="selProp(this,'portrait_4_3')">📱 Retrato 4:3</div>
+    <div class="prop" onclick="selProp(this,'portrait_16_9')">📲 Story 9:16</div>
+    <div class="prop" onclick="selProp(this,'square_hd')">⬛ Quadrado</div>
+    <div class="prop" onclick="selProp(this,'landscape_4_3')">🖼 Paisagem</div>
+  </div>
+
+  <div class="info" style="margin-top:1.25rem">
+    💡 <strong>Dica:</strong> Seja específica no prompt. Quanto mais detalhes você der — roupa, cor, cenário, iluminação, pose — melhor o resultado. O modelo <strong>FLUX Kontext</strong> preserva seu rosto e aplica tudo que você descrever.
+  </div>
+
+  <div class="errbox" id="errbox"></div>
+  <button class="genbtn" id="genbtn" onclick="generate()">✨ Gerar Ensaio</button>
+</div>
+
+<!-- LOADING -->
+<div class="loadcard" id="loadcard">
+  <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  <div class="loadtitle" id="loadtitle">Gerando seu ensaio...</div>
+  <div class="loadmsg" id="loadmsg">Enviando foto para fal.ai...</div>
+  <div class="progwrap"><div class="progfill" id="progfill"></div></div>
+</div>
+
+<!-- RESULTADO -->
+<div class="resultcard" id="resultcard">
+  <img id="resultimg" class="resultimg" src="" alt="Ensaio gerado">
+  <div class="resultactions">
+    <button class="actbtn p" onclick="download()">⬇ Baixar</button>
+    <button class="actbtn" onclick="window.open(resultUrl,'_blank')">🔗 Abrir</button>
+    <button class="actbtn" onclick="gerarNovamente()">↺ Gerar novamente</button>
+  </div>
+</div>
+
 <script>
-const state = {
-  apiKey: localStorage.getItem('studio_fal_key') || '',
-  file: null, imageUrl: null, resultUrl: null,
-  model: { name:'Luxo Editorial', prompt:'editorial fashion photography, dramatic studio lighting, seamless neutral background, haute couture aesthetic, professional model, vogue magazine' },
-  vest: 'wearing elegant black lace lingerie',
-  pose: 'confident standing pose, hand on hip',
-  luz:  'dramatic chiaroscuro lighting, deep shadows',
+let state = {
+  key: localStorage.getItem('fal_key')||'',
+  file: null,
+  imageUrl: null,
   imgSize: 'portrait_4_3',
 };
+let resultUrl = '';
 
-if(state.apiKey) document.getElementById('apiKey').value = state.apiKey;
+if(state.key) document.getElementById('apiKey').value = state.key;
 
-function onKeyInput(){
+function onKey(){
   const v = document.getElementById('apiKey').value.trim();
-  state.apiKey = v;
-  if(v.length > 20) localStorage.setItem('studio_fal_key', v);
-  document.getElementById('keyOk').style.display = 'none';
-  document.getElementById('keyErr').style.display = 'none';
+  state.key = v;
+  if(v.length > 20) localStorage.setItem('fal_key', v);
 }
 function toggleEye(){
   const i = document.getElementById('apiKey');
-  i.type = i.type==='password' ? 'text' : 'password';
+  i.type = i.type==='password'?'text':'password';
 }
 async function verifyKey(){
   const key = document.getElementById('apiKey').value.trim();
-  if(!key){ showErr('err0','Digite sua chave API primeiro.'); return; }
+  if(!key){ showErr('Digite sua chave primeiro.'); return; }
   const r = await fetch('/api/credits',{headers:{'x-fal-key':key}});
   const d = await r.json();
-  document.getElementById('keyOk').style.display  = d.valid ? 'inline-flex' : 'none';
-  document.getElementById('keyErr').style.display = d.valid ? 'none' : 'inline-flex';
+  document.getElementById('kok').style.display  = d.valid?'block':'none';
+  document.getElementById('kerr').style.display = d.valid?'none':'block';
 }
 function handleFile(e){
   const f = e.target.files[0];
   if(!f) return;
-  if(f.size > 10*1024*1024){ showErr('err0','Arquivo muito grande. Máximo 10MB.'); return; }
+  if(f.size > 10*1024*1024){ showErr('Arquivo muito grande. Máximo 10MB.'); return; }
   state.file = f; state.imageUrl = null;
-  const url = URL.createObjectURL(f);
-  document.getElementById('prevImg').src = url;
-  document.getElementById('prevWrap').style.display = 'block';
-  hideErr('err0');
+  document.getElementById('previmg').src = URL.createObjectURL(f);
+  document.getElementById('prevwrap').style.display = 'block';
+  hideErr();
 }
-function selModel(el, name, prompt){
-  document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('sel'));
+function addSug(text){
+  const el = document.getElementById('prompt');
+  el.value = text;
+  el.focus();
+}
+function selProp(el, val){
+  document.querySelectorAll('.prop').forEach(p=>p.classList.remove('sel'));
   el.classList.add('sel');
-  state.model = {name, prompt};
-}
-function selPill(el, group, value){
-  el.closest('.pill-group').querySelectorAll('.pill').forEach(p=>p.classList.remove('sel'));
-  el.classList.add('sel');
-  state[group] = value;
-}
-function goTo(n){
-  if(n===3){
-    document.getElementById('genSub').textContent = `Modelo: ${state.model.name} · ${state.imgSize} · FLUX + Face-Swap`;
-    document.getElementById('resultCard').style.display  = 'none';
-    document.getElementById('loadingCard').style.display = 'none';
-    document.getElementById('genBtn').style.display = 'block';
-    hideErr('errGen');
-  }
-  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===n));
-  document.querySelectorAll('.step').forEach((s,i)=>{
-    s.classList.toggle('active',i===n);
-    s.classList.toggle('done',i<n);
-    s.querySelector('.step-circle').textContent = i<n ? '✓' : (i+1);
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function goStep1(){
-  if(!document.getElementById('apiKey').value.trim()){ showErr('err0','Insira sua chave API antes de continuar.'); return; }
-  if(!state.file){ showErr('err0','Adicione uma foto de referência antes de continuar.'); return; }
-  hideErr('err0'); goTo(1);
-}
-function buildPrompt(){
-  const extras = document.getElementById('extras')?.value?.trim()||'';
-  return [
-    'cinematic sensual portrait of a beautiful woman',
-    state.model.prompt, state.pose, state.vest, state.luz,
-    'photorealistic, 8k, professional photography, sharp focus, perfect composition, high detail',
-    extras
-  ].filter(Boolean).join(', ');
+  state.imgSize = val;
 }
 
-const loadSteps = [
-  [15, 'Fazendo upload da sua foto...', 'Etapa 1 de 3'],
-  [35, 'Inicializando FLUX...', 'Etapa 2 de 3'],
-  [55, 'Gerando o ensaio...', 'Etapa 2 de 3'],
-  [75, 'Aplicando seu rosto...', 'Etapa 3 de 3 — Face-Swap'],
-  [88, 'Finalizando detalhes...', 'Etapa 3 de 3'],
+const steps = [
+  [10,'Fazando upload da sua foto...'],
+  [30,'Inicializando FLUX Kontext...'],
+  [55,'Gerando o ensaio com seu rosto...'],
+  [78,'Aplicando detalhes finais...'],
+  [90,'Quase pronto...'],
 ];
 
 async function generate(){
-  const key = document.getElementById('apiKey').value.trim();
-  if(!key){ showErr('errGen','Chave API não encontrada. Volte ao passo 1.'); return; }
-  if(!state.file){ showErr('errGen','Foto não encontrada. Volte ao passo 1.'); return; }
+  const key    = document.getElementById('apiKey').value.trim();
+  const prompt = document.getElementById('prompt').value.trim();
 
-  document.getElementById('genBtn').style.display    = 'none';
-  document.getElementById('resultCard').style.display = 'none';
-  document.getElementById('loadingCard').style.display = 'block';
-  document.getElementById('progFill').style.width = '3%';
-  hideErr('errGen');
+  if(!key)    { showErr('Insira sua chave API do fal.ai.'); return; }
+  if(!state.file){ showErr('Adicione uma foto de referência.'); return; }
+  if(!prompt) { showErr('Escreva uma descrição do ensaio.'); return; }
 
-  let li = 0;
-  const interval = setInterval(()=>{
-    if(li < loadSteps.length){
-      document.getElementById('progFill').style.width = loadSteps[li][0]+'%';
-      document.getElementById('loadMsg').textContent  = loadSteps[li][1];
-      document.getElementById('loadTitle').textContent = loadSteps[li][2];
-      li++;
+  document.getElementById('genbtn').disabled = true;
+  document.getElementById('resultcard').style.display = 'none';
+  document.getElementById('loadcard').style.display = 'block';
+  document.getElementById('progfill').style.width = '3%';
+  hideErr();
+
+  let si = 0;
+  const iv = setInterval(()=>{
+    if(si < steps.length){
+      document.getElementById('progfill').style.width = steps[si][0]+'%';
+      document.getElementById('loadmsg').textContent  = steps[si][1];
+      si++;
     }
   }, 4000);
 
   try {
-    // Upload da foto
-    const formData = new FormData();
-    formData.append('image', state.file);
-    const upResp = await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':key},body:formData});
-    if(!upResp.ok){ const e=await upResp.json().catch(()=>({})); throw new Error(e.error||'Erro no upload.'); }
-    const upData = await upResp.json();
-    state.imageUrl = upData.url;
+    // Upload
+    if(!state.imageUrl){
+      const fd = new FormData();
+      fd.append('image', state.file);
+      const ur = await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':key},body:fd});
+      if(!ur.ok){ const e=await ur.json().catch(()=>({})); throw new Error(e.error||'Erro no upload.'); }
+      state.imageUrl = (await ur.json()).url;
+    }
 
-    // Gerar + face-swap
-    const genResp = await fetch('/api/generate',{
+    // Gerar
+    // Monta prompt final em inglês para melhor resultado
+    const finalPrompt = `Keep the exact same face, facial features, skin tone and identity of the person in the reference image. ${prompt}. Photorealistic, high quality, 8k, professional photography, sharp focus.`;
+
+    const gr = await fetch('/api/generate',{
       method:'POST',
       headers:{'x-fal-key':key,'Content-Type':'application/json'},
-      body:JSON.stringify({face_image_url:state.imageUrl, prompt:buildPrompt(), image_size:state.imgSize})
+      body: JSON.stringify({ image_url: state.imageUrl, prompt: finalPrompt, image_size: state.imgSize })
     });
-    clearInterval(interval);
-    if(!genResp.ok){ const e=await genResp.json().catch(()=>({})); throw new Error(e.error||'Erro na geração.'); }
 
-    const genData = await genResp.json();
-    document.getElementById('progFill').style.width = '100%';
-    state.resultUrl = genData.url;
-    document.getElementById('resultImg').src = genData.url;
+    clearInterval(iv);
+
+    if(!gr.ok){ const e=await gr.json().catch(()=>({})); throw new Error(e.error||'Erro na geração.'); }
+
+    const d = await gr.json();
+    document.getElementById('progfill').style.width = '100%';
+    resultUrl = d.url;
 
     setTimeout(()=>{
-      document.getElementById('loadingCard').style.display = 'none';
-      document.getElementById('resultCard').style.display  = 'block';
+      document.getElementById('loadcard').style.display  = 'none';
+      document.getElementById('resultimg').src = d.url;
+      document.getElementById('resultcard').style.display = 'block';
+      document.getElementById('genbtn').disabled = false;
     }, 500);
 
   } catch(err){
-    clearInterval(interval);
-    document.getElementById('loadingCard').style.display = 'none';
-    document.getElementById('genBtn').style.display = 'block';
-    showErr('errGen','❌ '+err.message);
+    clearInterval(iv);
+    document.getElementById('loadcard').style.display = 'none';
+    document.getElementById('genbtn').disabled = false;
+    showErr('❌ '+err.message);
   }
 }
-function genAgain(){
-  document.getElementById('resultCard').style.display = 'none';
-  document.getElementById('genBtn').style.display = 'block';
+
+function gerarNovamente(){
+  document.getElementById('resultcard').style.display = 'none';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-function downloadImg(){
-  if(!state.resultUrl) return;
+function download(){
   const a = document.createElement('a');
-  a.href = state.resultUrl;
+  a.href = resultUrl;
   a.download = `ensaio-${Date.now()}.jpg`;
   a.target = '_blank'; a.click();
 }
-function showErr(id,msg){ const el=document.getElementById(id); el.innerHTML=msg; el.style.display='block'; }
-function hideErr(id){ document.getElementById(id).style.display='none'; }
+function showErr(msg){
+  const el = document.getElementById('errbox');
+  el.textContent = msg; el.style.display = 'block';
+}
+function hideErr(){ document.getElementById('errbox').style.display='none'; }
 </script>
 </body>
 </html>
