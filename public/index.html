@@ -14,8 +14,7 @@
   --border:#e8d5de;--surface:#fff;
 }
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
-.app{max-width:700px;margin:0 auto;padding:2rem 1rem 4rem}
-
+.app{max-width:780px;margin:0 auto;padding:2rem 1rem 4rem}
 header{text-align:center;padding:2rem 0 2.5rem}
 .brand{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;letter-spacing:0.1em;color:var(--rose-dark)}
 .brand em{color:var(--rose);font-style:italic}
@@ -38,49 +37,32 @@ header{text-align:center;padding:2rem 0 2.5rem}
 .kok{background:#f0faf0;color:#2a7a2a;border:0.5px solid #90c890}
 .kerr{background:#fff0f0;color:#8a2020;border:0.5px solid #f0a0a0}
 .alink{font-size:12px;color:var(--rose);text-decoration:none;display:inline-block;margin-top:8px}
-.alink:hover{text-decoration:underline}
 
-/* MULTI UPLOAD */
-.upload-area{border:1.5px dashed var(--border);border-radius:12px;padding:1.5rem;background:#fafafa;transition:all 0.2s}
+/* UPLOAD FOTO */
+.upload-area{border:1.5px dashed var(--border);border-radius:12px;padding:1.5rem;background:#fafafa;transition:all 0.2s;cursor:pointer}
 .upload-area:hover{border-color:var(--rose);background:var(--rose-light)}
-.upload-trigger{display:flex;align-items:center;gap:12px;cursor:pointer}
+.upload-trigger{display:flex;align-items:center;gap:12px}
 .upload-trigger input{display:none}
 .upload-icon-box{width:52px;height:52px;border-radius:10px;background:var(--rose-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
 .upload-text-main{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--rose-dark)}
 .upload-text-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.prevwrap{margin-top:1rem;display:none;border-radius:10px;overflow:hidden;border:0.5px solid var(--border);position:relative}
+.prevwrap img{width:100%;max-height:240px;object-fit:cover;display:block}
+.prevover{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,10,18,0.75));padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center}
+.prevbadge{color:#fff;font-size:12px}
+.chbtn{font-size:11px;background:rgba(255,255,255,0.2);color:#fff;border:0.5px solid rgba(255,255,255,0.4);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-/* FOTOS PREVIEW GRID */
-.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:1rem}
-.photo-thumb{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;border:0.5px solid var(--border)}
-.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.photo-badge{position:absolute;top:5px;left:5px;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
-.badge-face{background:var(--rose);color:#fff}
-.badge-body{background:var(--gold);color:#fff}
-.badge-extra{background:#5a3a8a;color:#fff}
-.photo-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.6);color:#fff;border:none;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;line-height:1}
-.add-more{border:1.5px dashed var(--border);border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:1.5rem;color:var(--muted);transition:all 0.2s;position:relative}
-.add-more input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.add-more:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
-.add-more-label{font-size:10px;margin-top:4px}
-
-.tips-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem}
-.tip{background:var(--rose-light);border:0.5px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem;font-size:11px;color:var(--rose-dark);line-height:1.5}
-.tip strong{display:block;margin-bottom:2px}
-
-/* PROMPT */
-.prompt-area{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.9rem 1rem;font-family:'DM Sans',sans-serif;font-size:14px;background:#fafafa;color:var(--dark);outline:none;resize:vertical;min-height:130px;line-height:1.7;transition:border 0.2s}
-.prompt-area:focus{border-color:var(--rose);background:#fff}
-
-.sug-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;margin-top:1.25rem;display:block}
-.sug-grid{display:flex;flex-wrap:wrap;gap:6px}
-.sug{border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all 0.15s;background:var(--surface);color:var(--muted)}
-.sug:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
-.sug.active{border-color:var(--rose);background:var(--rose);color:#fff}
-
-.prop-row{display:flex;gap:8px;margin-top:0.5rem}
-.prop{flex:1;border:1px solid var(--border);border-radius:8px;padding:0.6rem;text-align:center;cursor:pointer;font-size:12px;color:var(--muted);transition:all 0.2s;background:var(--surface)}
-.prop:hover{border-color:var(--rose);color:var(--rose)}
-.prop.sel{border-color:var(--rose);background:var(--rose);color:#fff}
+/* TEMPLATES GRID */
+.templates-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:0.5rem}
+@media(min-width:600px){.templates-grid{grid-template-columns:repeat(3,1fr)}}
+.template-card{border:2px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.2s;position:relative;background:#1a0a12;aspect-ratio:3/4}
+.template-card:hover{border-color:var(--rose);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,64,112,0.2)}
+.template-card.sel{border-color:var(--rose);box-shadow:0 0 0 3px rgba(201,64,112,0.2)}
+.template-card img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity 0.2s}
+.template-card img.loading{opacity:0.4}
+.template-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,10,18,0.85));color:#fff;font-size:11px;padding:1.5rem 0.6rem 0.6rem;text-align:center;font-weight:500}
+.template-sel-badge{position:absolute;top:8px;right:8px;background:var(--rose);color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;display:none}
+.template-card.sel .template-sel-badge{display:block}
 
 .info{background:var(--gold-light);border:0.5px solid #d4a96a;border-radius:10px;padding:0.9rem 1.1rem;font-size:12px;color:#6b4a1a;line-height:1.7;margin-top:0.75rem}
 .errbox{background:#fff0f0;border:0.5px solid #f0a0a0;border-radius:10px;padding:0.9rem 1.1rem;font-size:13px;color:#8a2020;display:none;margin-top:0.75rem;line-height:1.6}
@@ -88,6 +70,24 @@ header{text-align:center;padding:2rem 0 2.5rem}
 .genbtn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;border:none;border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(201,64,112,0.35);margin-top:1.5rem}
 .genbtn:hover{box-shadow:0 6px 28px rgba(201,64,112,0.5);transform:translateY(-1px)}
 .genbtn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* COMPARE SLIDER */
+.compare-wrap{display:none;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(201,64,112,0.15);margin-bottom:1.25rem;position:relative;user-select:none}
+.compare-inner{position:relative;width:100%;overflow:hidden}
+.compare-img{width:100%;display:block}
+.compare-overlay{position:absolute;top:0;left:0;height:100%;overflow:hidden;width:50%}
+.compare-overlay img{width:100%;display:block;position:absolute;top:0;left:0}
+/* force overlay img same width as base */
+.compare-overlay img{width:var(--base-w,100%)}
+.compare-handle{position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;width:3px;background:rgba(255,255,255,0.9);cursor:ew-resize;z-index:10}
+.compare-handle::before{content:'◀ ▶';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.95);color:var(--rose-dark);font-size:12px;padding:4px 10px;border-radius:20px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+.compare-labels{position:absolute;top:12px;width:100%;display:flex;justify-content:space-between;padding:0 12px;pointer-events:none}
+.clabel{font-size:11px;background:rgba(0,0,0,0.5);color:#fff;padding:3px 9px;border-radius:20px}
+.result-actions{padding:1.25rem;display:flex;gap:8px;flex-wrap:wrap;background:var(--surface);border:0.5px solid var(--border);border-top:none;border-radius:0 0 16px 16px}
+.actbtn{padding:0.65rem 1.2rem;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;border:0.5px solid var(--border);background:var(--surface);color:var(--dark)}
+.actbtn:hover{border-color:var(--rose);color:var(--rose)}
+.actbtn.p{background:var(--rose);color:#fff;border-color:var(--rose)}
+.actbtn.p:hover{background:var(--rose-dark)}
 
 /* LOADING */
 .loadcard{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:3rem 2rem;text-align:center;display:none;margin-bottom:1.25rem}
@@ -98,32 +98,18 @@ header{text-align:center;padding:2rem 0 2.5rem}
 .loadtitle{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose-dark)}
 .loadmsg{font-size:13px;color:var(--muted);font-style:italic;margin-top:0.5rem}
 .progwrap{margin-top:1.5rem;background:var(--border);border-radius:4px;height:3px;overflow:hidden}
-.progfill{height:100%;background:linear-gradient(90deg,var(--rose-light),var(--rose));border-radius:4px;transition:width 1s ease;width:0%}
-.load-steps{display:flex;justify-content:center;gap:6px;margin-top:1rem;flex-wrap:wrap}
-.lstep{font-size:10px;padding:3px 10px;border-radius:20px;border:0.5px solid var(--border);color:var(--muted);background:var(--surface)}
-.lstep.done{background:var(--rose);color:#fff;border-color:var(--rose)}
-.lstep.active{border-color:var(--rose);color:var(--rose)}
-
-/* RESULT */
-.resultcard{display:none;background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(201,64,112,0.15);margin-bottom:1.25rem}
-.resultimg{width:100%;display:block;background:#1a0a12}
-.resultactions{padding:1.25rem 1.5rem;display:flex;gap:8px;flex-wrap:wrap;border-top:0.5px solid var(--border)}
-.actbtn{padding:0.65rem 1.2rem;border-radius:10px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;border:0.5px solid var(--border);background:var(--surface);color:var(--dark)}
-.actbtn:hover{border-color:var(--rose);color:var(--rose)}
-.actbtn.p{background:var(--rose);color:#fff;border-color:var(--rose)}
-.actbtn.p:hover{background:var(--rose-dark)}
+.progfill{height:100%;background:linear-gradient(90deg,var(--rose-light),var(--rose));border-radius:4px;transition:width 0.8s ease;width:0%}
 </style>
 </head>
 <body>
 <div class="app">
-
 <header>
   <div class="brand">Studio <em>Íntimo</em> IA</div>
-  <div class="tagline">Ensaios sensuais gerados por inteligência artificial</div>
-  <div class="powered">Powered by <span>FLUX Kontext · fal.ai</span></div>
+  <div class="tagline">Ensaios digitais gerados por inteligência artificial</div>
+  <div class="powered">Powered by <span>Easel AI Face Swap · fal.ai</span></div>
 </header>
 
-<!-- CHAVE API -->
+<!-- API KEY -->
 <div class="card">
   <div class="card-title">🔑 Chave API — fal.ai</div>
   <div class="card-sub">Salva só no seu navegador. Nunca sai do seu computador.</div>
@@ -139,109 +125,178 @@ header{text-align:center;padding:2rem 0 2.5rem}
   <a class="alink" href="https://fal.ai/dashboard/keys" target="_blank">→ Criar chave em fal.ai/dashboard/keys</a>
 </div>
 
-<!-- FOTOS DE REFERÊNCIA -->
+<!-- FOTO DA PESSOA -->
 <div class="card">
-  <div class="card-title">📷 Fotos de referência</div>
-  <div class="card-sub">Adicione até 5 fotos. Quanto mais variadas (rosto de frente, corpo inteiro, diferentes ângulos), mais fiel o resultado.</div>
-
-  <div class="upload-area" id="uploadArea">
+  <div class="card-title">📷 Sua foto</div>
+  <div class="card-sub">Envie uma foto com rosto e corpo bem visíveis. Quanto mais parecida com o estilo do ensaio escolhido, melhor o resultado.</div>
+  <div class="upload-area">
     <label class="upload-trigger">
-      <input type="file" accept="image/jpeg,image/png,image/webp" multiple id="fileInput" onchange="handleFiles(event)">
+      <input type="file" accept="image/jpeg,image/png,image/webp" id="fileInput" onchange="handleFile(event)">
       <div class="upload-icon-box">📸</div>
       <div>
-        <div class="upload-text-main">Clique para adicionar fotos</div>
-        <div class="upload-text-sub">JPG · PNG · WEBP · até 5 fotos · máx 10MB cada</div>
+        <div class="upload-text-main">Clique para adicionar sua foto</div>
+        <div class="upload-text-sub">JPG · PNG · WEBP · máx 10MB · rosto + corpo visíveis</div>
       </div>
     </label>
   </div>
-
-  <div class="photos-grid" id="photosGrid" style="display:none"></div>
-
-  <div class="tips-row">
-    <div class="tip"><strong>📸 1ª foto — Rosto</strong>Rosto de frente, bem iluminado, expressão neutra. É a mais importante.</div>
-    <div class="tip"><strong>🧍 2ª foto — Corpo</strong>Foto de corpo inteiro ou meio corpo para capturar proporções e tom de pele.</div>
-    <div class="tip"><strong>↕️ 3ª foto — Perfil</strong>Rosto de lado ou ¾ para capturar profundidade facial.</div>
-    <div class="tip"><strong>✨ 4ª e 5ª — Extras</strong>Qualquer foto adicional que ajude a capturar suas características.</div>
+  <div class="prevwrap" id="prevwrap">
+    <img id="previmg" src="" alt="">
+    <div class="prevover">
+      <div class="prevbadge">✓ Foto carregada</div>
+      <label for="fileInput" style="margin:0"><div class="chbtn">Trocar</div></label>
+    </div>
+  </div>
+  <div class="info" style="margin-top:0.75rem">
+    💡 <strong>Dica:</strong> Use uma foto de corpo inteiro ou meio corpo com boa iluminação. O sistema coloca seu rosto e características no modelo de ensaio escolhido.
   </div>
 </div>
 
-<!-- PROMPT -->
+<!-- TEMPLATES -->
 <div class="card">
-  <div class="card-title">✍️ Descreva o ensaio</div>
-  <div class="card-sub">Escreva o que você quer. Seja específica — roupa, cenário, pose, iluminação. Clique nas sugestões para usar prompts prontos.</div>
+  <div class="card-title">✨ Escolha o modelo de ensaio</div>
+  <div class="card-sub">Clique no ensaio que você quer. Seu rosto e corpo serão aplicados nessa imagem.</div>
 
-  <textarea class="prompt-area" id="prompt" placeholder="Ex: ensaio sensual em quarto luxuoso com lingerie preta de renda, deitada na cama de lençóis de seda brancos, iluminação suave de vela, pétalas de rosa vermelhas no chão..."></textarea>
-
-  <span class="sug-label">Estilos prontos</span>
-  <div class="sug-grid">
-    <div class="sug" onclick="setSug(this,'ensaio sensual boudoir em quarto luxuoso, lingerie de renda preta, deitada em cama com lençóis de seda brancos, iluminação suave de velas, pétalas de rosa, atmosfera romântica e íntima')">🌹 Boudoir íntimo</div>
-    <div class="sug" onclick="setSug(this,'ensaio sensual na praia ao pôr do sol, biquíni fio dental branco, cabelos ao vento, areia fina, água cristalina, luz dourada do golden hour, verão tropical')">🌊 Praia dourada</div>
-    <div class="sug" onclick="setSug(this,'ensaio editorial de moda, lingerie de grife preta, fundo branco neutro de estúdio, iluminação dramática profissional, pose de modelo de revista, alta moda')">✨ Editorial luxo</div>
-    <div class="sug" onclick="setSug(this,'ensaio dark glam, body de renda preta, fundo completamente escuro, iluminação cinematográfica com sombras profundas, estética noir misteriosa, veludo e renda')">🖤 Dark Glam noir</div>
-    <div class="sug" onclick="setSug(this,'ensaio artístico com flores, jardim botânico luxuoso, vestido transparente fluindo, luz natural difusa e etérea, pétalas ao redor, atmosfera de sonho')">🍃 Arte & Natureza</div>
-    <div class="sug" onclick="setSug(this,'ensaio neon cyberpunk urbano, body metálico prateado, luzes neon roxas e rosas ao fundo, rua da cidade à noite com chuva, reflexos no asfalto molhado, futurista')">💜 Neon Cyber</div>
-    <div class="sug" onclick="setSug(this,'ensaio luxo árabe em palácio oriental, vestido longo dourado bordado, véu transparente dourado, decoração árabe ornamentada com ouro, luz quente e exótica, misteriosa')">🏺 Luxo Árabe</div>
-    <div class="sug" onclick="setSug(this,'ensaio íntimo em banheira com espuma branca, pétalas de rosa vermelhas flutuando, velas ao redor, nude artístico tasteful, luz quente e dourada, luxuoso e sensual')">🛁 Banheira sensual</div>
-    <div class="sug" onclick="setSug(this,'ensaio em piscina infinita com vista para o mar, biquíni colorido vibrante, água azul cristalina, resort de luxo à beira-mar, luz tropical, verão e sofisticação')">🏊 Resort de luxo</div>
-    <div class="sug" onclick="setSug(this,'ensaio vintage pin-up anos 1950, biquíni de bolinhas coloridas, cores pastéis, maquiagem retrô com batom vermelho, pose pin-up divertida e glamourosa, grão de filme vintage')">🎀 Vintage Pin-up</div>
+  <div class="templates-grid" id="templatesGrid">
+    <!-- Templates gerados dinamicamente pelo JS -->
   </div>
 
-  <span class="sug-label" style="margin-top:1.5rem">Proporção da imagem</span>
-  <div class="prop-row">
-    <div class="prop sel" onclick="selProp(this,'portrait_4_3')">📱 Retrato 4:3</div>
-    <div class="prop" onclick="selProp(this,'portrait_16_9')">📲 Story 9:16</div>
-    <div class="prop" onclick="selProp(this,'square_hd')">⬛ Quadrado</div>
-    <div class="prop" onclick="selProp(this,'landscape_4_3')">🖼 Paisagem</div>
-  </div>
-
-  <div class="info">
-    💡 <strong>Dica de resultado:</strong> Combine uma foto de rosto nítida + uma foto de corpo como referências. No prompt, descreva a cena com detalhes — tipo de roupa, cor, tecido, cenário, iluminação e pose. Quanto mais detalhes, melhor a IA entende o que você quer.
+  <div class="info" style="margin-top:1rem">
+    🤖 <strong>Como funciona:</strong> O <strong>Easel AI</strong> detecta o rosto e corpo na sua foto e aplica na imagem do ensaio escolhido, preservando tom de pele, cabelo e características físicas. O cenário, a roupa e a pose do ensaio ficam intactos.
   </div>
 
   <div class="errbox" id="errbox"></div>
-  <button class="genbtn" id="genbtn" onclick="generate()">✨ Gerar Ensaio</button>
+  <button class="genbtn" id="genbtn" onclick="generate()">✨ Gerar meu ensaio</button>
 </div>
 
 <!-- LOADING -->
 <div class="loadcard" id="loadcard">
   <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
   <div class="loadtitle">Criando seu ensaio...</div>
-  <div class="loadmsg" id="loadmsg">Enviando fotos...</div>
+  <div class="loadmsg" id="loadmsg">Enviando sua foto...</div>
   <div class="progwrap"><div class="progfill" id="progfill"></div></div>
-  <div class="load-steps">
-    <div class="lstep" id="ls0">📤 Upload</div>
-    <div class="lstep" id="ls1">🎨 Geração</div>
-    <div class="lstep" id="ls2">✨ Refinamento</div>
-    <div class="lstep" id="ls3">✅ Finalizado</div>
-  </div>
 </div>
 
-<!-- RESULTADO -->
-<div class="resultcard" id="resultcard">
-  <img id="resultimg" class="resultimg" src="" alt="Ensaio gerado">
-  <div class="resultactions">
+<!-- RESULTADO COM SLIDER ANTES/DEPOIS -->
+<div class="compare-wrap" id="compareWrap">
+  <div class="compare-inner" id="compareInner">
+    <img id="resultImg" class="compare-img" src="" alt="Resultado">
+    <div class="compare-overlay" id="compareOverlay">
+      <img id="templateImg" src="" alt="Template">
+    </div>
+    <div class="compare-handle" id="compareHandle"></div>
+    <div class="compare-labels">
+      <div class="clabel">Template</div>
+      <div class="clabel">Seu ensaio</div>
+    </div>
+  </div>
+  <div class="result-actions">
     <button class="actbtn p" onclick="download()">⬇ Baixar</button>
     <button class="actbtn" onclick="window.open(resultUrl,'_blank')">🔗 Abrir</button>
     <button class="actbtn" onclick="gerarNovamente()">↺ Gerar novamente</button>
+    <button class="actbtn" onclick="trocarTemplate()">🔄 Trocar modelo</button>
   </div>
 </div>
 
 <script>
+// Templates de ensaio — imagens de referência de alta qualidade geradas por IA
+// Usando imagens públicas do Unsplash/Picsum como placeholder visual
+// Na versão final, substitua pelas URLs das suas imagens de ensaio geradas por IA
+const TEMPLATES = [
+  {
+    id: 'boudoir_1',
+    label: '🌹 Boudoir — Cama de seda',
+    url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80',
+    desc: 'Lingerie preta, cama branca, velas'
+  },
+  {
+    id: 'boudoir_2',
+    label: '🌹 Boudoir — Luz suave',
+    url: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80',
+    desc: 'Lingerie, luz de janela suave'
+  },
+  {
+    id: 'beach_1',
+    label: '🌊 Praia — Golden hour',
+    url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+    desc: 'Biquíni, praia, pôr do sol'
+  },
+  {
+    id: 'beach_2',
+    label: '🌊 Praia — Verão',
+    url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80',
+    desc: 'Biquíni, areia branca, oceano'
+  },
+  {
+    id: 'editorial_1',
+    label: '✨ Editorial — Estúdio',
+    url: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80',
+    desc: 'Lingerie, fundo branco, luz dramática'
+  },
+  {
+    id: 'dark_1',
+    label: '🖤 Dark Glam',
+    url: 'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=600&q=80',
+    desc: 'Body de renda, fundo escuro'
+  },
+  {
+    id: 'nature_1',
+    label: '🍃 Arte & Natureza',
+    url: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80',
+    desc: 'Vestido fluido, jardim, luz natural'
+  },
+  {
+    id: 'pool_1',
+    label: '🏊 Piscina de luxo',
+    url: 'https://images.unsplash.com/photo-1504703395950-b89145a5425b?w=600&q=80',
+    desc: 'Biquíni, piscina infinita, resort'
+  },
+  {
+    id: 'neon_1',
+    label: '💜 Neon Cyber',
+    url: 'https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=600&q=80',
+    desc: 'Body metálico, luzes neon'
+  },
+];
+
 let state = {
   key: localStorage.getItem('fal_key')||'',
-  files: [],
-  uploadedUrls: null,
-  imgSize: 'portrait_4_3',
+  file: null,
+  uploadedUrl: null,
+  selectedTemplate: null,
 };
 let resultUrl = '';
-const badgeLabels = ['Rosto','Corpo','Perfil','Extra','Extra'];
-const badgeColors = ['badge-face','badge-body','badge-extra','badge-extra','badge-extra'];
 
 if(state.key) document.getElementById('apiKey').value = state.key;
 
+// Renderiza templates
+function renderTemplates(){
+  const grid = document.getElementById('templatesGrid');
+  grid.innerHTML = '';
+  TEMPLATES.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'template-card';
+    div.id = 'tpl-'+t.id;
+    div.onclick = () => selectTemplate(t);
+    div.innerHTML = `
+      <img src="${t.url}" alt="${t.label}" onload="this.classList.remove('loading')" onerror="this.style.opacity='0.3'">
+      <div class="template-label">${t.label}</div>
+      <div class="template-sel-badge">✓ Selecionado</div>
+    `;
+    div.querySelector('img').classList.add('loading');
+    grid.appendChild(div);
+  });
+}
+renderTemplates();
+
+function selectTemplate(t){
+  document.querySelectorAll('.template-card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('tpl-'+t.id).classList.add('sel');
+  state.selectedTemplate = t;
+}
+
 function onKey(){
-  const v = document.getElementById('apiKey').value.trim();
-  state.key = v;
+  const v=document.getElementById('apiKey').value.trim();
+  state.key=v;
   if(v.length>20) localStorage.setItem('fal_key',v);
 }
 function toggleEye(){
@@ -256,131 +311,79 @@ async function verifyKey(){
   document.getElementById('kok').style.display=d.valid?'block':'none';
   document.getElementById('kerr').style.display=d.valid?'none':'block';
 }
-
-function handleFiles(e){
-  const newFiles = Array.from(e.target.files);
-  const remaining = 5 - state.files.length;
-  const toAdd = newFiles.slice(0, remaining);
-  state.files = [...state.files, ...toAdd];
-  state.uploadedUrls = null;
-  renderPhotos();
+function handleFile(e){
+  const f=e.target.files[0];
+  if(!f) return;
+  if(f.size>10*1024*1024){showErr('Arquivo muito grande. Máximo 10MB.');return;}
+  state.file=f; state.uploadedUrl=null;
+  document.getElementById('previmg').src=URL.createObjectURL(f);
+  document.getElementById('prevwrap').style.display='block';
   hideErr();
 }
 
-function removePhoto(idx){
-  state.files.splice(idx,1);
-  state.uploadedUrls = null;
-  renderPhotos();
-}
-
-function renderPhotos(){
-  const grid = document.getElementById('photosGrid');
-  if(state.files.length===0){ grid.style.display='none'; return; }
-  grid.style.display='grid';
-  grid.innerHTML='';
-  state.files.forEach((f,i)=>{
-    const url = URL.createObjectURL(f);
-    const div = document.createElement('div');
-    div.className='photo-thumb';
-    div.innerHTML=`<img src="${url}" alt="foto ${i+1}">
-      <span class="photo-badge ${badgeColors[i]}">${badgeLabels[i]}</span>
-      <button class="photo-remove" onclick="removePhoto(${i})">×</button>`;
-    grid.appendChild(div);
-  });
-  // Botão adicionar mais se < 5
-  if(state.files.length<5){
-    const add=document.createElement('div');
-    add.className='add-more';
-    add.innerHTML=`<input type="file" accept="image/jpeg,image/png,image/webp" multiple onchange="handleFiles(event)">
-      <span>＋</span><span class="add-more-label">Adicionar</span>`;
-    grid.appendChild(add);
-  }
-}
-
-function setSug(el,text){
-  document.querySelectorAll('.sug').forEach(s=>s.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('prompt').value=text;
-}
-function selProp(el,val){
-  document.querySelectorAll('.prop').forEach(p=>p.classList.remove('sel'));
-  el.classList.add('sel');
-  state.imgSize=val;
-}
-
-function setStep(n){
-  ['ls0','ls1','ls2','ls3'].forEach((id,i)=>{
-    const el=document.getElementById(id);
-    el.classList.remove('done','active');
-    if(i<n) el.classList.add('done');
-    if(i===n) el.classList.add('active');
-  });
-}
+const loadMsgs=[
+  [10,'Enviando sua foto...'],
+  [35,'Analisando rosto e corpo...'],
+  [60,'Aplicando no modelo de ensaio...'],
+  [80,'Preservando características físicas...'],
+  [92,'Finalizando detalhes...'],
+];
 
 async function generate(){
-  const key    = document.getElementById('apiKey').value.trim();
-  const prompt = document.getElementById('prompt').value.trim();
-
-  if(!key)              {showErr('Insira sua chave API do fal.ai.');return;}
-  if(state.files.length===0){showErr('Adicione pelo menos uma foto de referência.');return;}
-  if(!prompt)           {showErr('Escreva uma descrição do ensaio ou clique em um estilo pronto.');return;}
+  const key=document.getElementById('apiKey').value.trim();
+  if(!key){showErr('Insira sua chave API do fal.ai.');return;}
+  if(!state.file){showErr('Adicione sua foto antes de continuar.');return;}
+  if(!state.selectedTemplate){showErr('Selecione um modelo de ensaio.');return;}
 
   document.getElementById('genbtn').disabled=true;
-  document.getElementById('resultcard').style.display='none';
+  document.getElementById('compareWrap').style.display='none';
   document.getElementById('loadcard').style.display='block';
   document.getElementById('progfill').style.width='3%';
   hideErr();
-  setStep(0);
 
-  const msgs=[
-    [10,'Enviando fotos para fal.ai...'],
-    [35,'Inicializando FLUX Kontext...'],
-    [58,'Gerando ensaio com seu rosto e corpo...'],
-    [78,'Refinando identidade e detalhes...'],
-    [90,'Finalizando...'],
-  ];
   let mi=0;
   const iv=setInterval(()=>{
-    if(mi<msgs.length){
-      document.getElementById('progfill').style.width=msgs[mi][0]+'%';
-      document.getElementById('loadmsg').textContent=msgs[mi][1];
-      if(mi===0) setStep(0);
-      if(mi===2) setStep(1);
-      if(mi===3) setStep(2);
+    if(mi<loadMsgs.length){
+      document.getElementById('progfill').style.width=loadMsgs[mi][0]+'%';
+      document.getElementById('loadmsg').textContent=loadMsgs[mi][1];
       mi++;
     }
-  },4500);
+  },4000);
 
-  try {
-    // Upload das fotos (só se não fez antes)
-    if(!state.uploadedUrls){
+  try{
+    // Upload da foto se ainda não fez
+    if(!state.uploadedUrl){
       const fd=new FormData();
-      state.files.forEach(f=>fd.append('images',f));
+      fd.append('images',state.file);
       const ur=await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':key},body:fd});
       if(!ur.ok){const e=await ur.json().catch(()=>({}));throw new Error(e.error||'Erro no upload.');}
-      state.uploadedUrls=(await ur.json()).urls;
+      state.uploadedUrl=(await ur.json()).urls[0];
     }
 
-    // Gerar
+    // Face swap
     const gr=await fetch('/api/generate',{
       method:'POST',
       headers:{'x-fal-key':key,'Content-Type':'application/json'},
-      body:JSON.stringify({image_urls:state.uploadedUrls, prompt, image_size:state.imgSize})
+      body:JSON.stringify({
+        face_image_url: state.uploadedUrl,
+        template_url:   state.selectedTemplate.url,
+      })
     });
 
     clearInterval(iv);
-
     if(!gr.ok){const e=await gr.json().catch(()=>({}));throw new Error(e.error||'Erro na geração.');}
 
     const d=await gr.json();
     document.getElementById('progfill').style.width='100%';
-    setStep(3);
     resultUrl=d.url;
 
+    // Mostrar comparação antes/depois
     setTimeout(()=>{
       document.getElementById('loadcard').style.display='none';
-      document.getElementById('resultimg').src=d.url;
-      document.getElementById('resultcard').style.display='block';
+      document.getElementById('resultImg').src=d.url;
+      document.getElementById('templateImg').src=state.selectedTemplate.url;
+      document.getElementById('compareWrap').style.display='block';
+      initCompare();
       document.getElementById('genbtn').disabled=false;
     },600);
 
@@ -392,9 +395,38 @@ async function generate(){
   }
 }
 
+// Slider de comparação antes/depois
+function initCompare(){
+  const handle=document.getElementById('compareHandle');
+  const overlay=document.getElementById('compareOverlay');
+  const inner=document.getElementById('compareInner');
+  let dragging=false;
+
+  function setPos(x){
+    const rect=inner.getBoundingClientRect();
+    let pct=Math.max(0,Math.min(1,(x-rect.left)/rect.width));
+    overlay.style.width=(pct*100)+'%';
+    handle.style.left=(pct*100)+'%';
+  }
+
+  handle.addEventListener('mousedown',e=>{dragging=true;e.preventDefault();});
+  window.addEventListener('mousemove',e=>{if(dragging) setPos(e.clientX);});
+  window.addEventListener('mouseup',()=>dragging=false);
+  handle.addEventListener('touchstart',e=>{dragging=true;e.preventDefault();});
+  window.addEventListener('touchmove',e=>{if(dragging) setPos(e.touches[0].clientX);});
+  window.addEventListener('touchend',()=>dragging=false);
+}
+
 function gerarNovamente(){
-  document.getElementById('resultcard').style.display='none';
+  document.getElementById('compareWrap').style.display='none';
+  document.getElementById('genbtn').disabled=false;
   window.scrollTo({top:0,behavior:'smooth'});
+}
+function trocarTemplate(){
+  document.getElementById('compareWrap').style.display='none';
+  document.querySelectorAll('.template-card').forEach(c=>c.classList.remove('sel'));
+  state.selectedTemplate=null;
+  document.getElementById('templatesGrid').scrollIntoView({behavior:'smooth'});
 }
 function download(){
   const a=document.createElement('a');
