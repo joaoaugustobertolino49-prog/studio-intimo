@@ -15,12 +15,12 @@
 }
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
 .app{max-width:700px;margin:0 auto;padding:2rem 1rem 4rem}
+
 header{text-align:center;padding:2rem 0 2.5rem}
 .brand{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;letter-spacing:0.1em;color:var(--rose-dark)}
 .brand em{color:var(--rose);font-style:italic}
 .tagline{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:8px}
-.powered{font-size:11px;color:#ccc;margin-top:4px}
-.powered span{color:var(--gold)}
+.powered{font-size:11px;color:#ccc;margin-top:4px}.powered span{color:var(--gold)}
 
 .card{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:1.75rem;margin-bottom:1.25rem;box-shadow:0 2px 12px rgba(201,64,112,0.04)}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose-dark);margin-bottom:5px}
@@ -40,55 +40,69 @@ header{text-align:center;padding:2rem 0 2.5rem}
 .alink{font-size:12px;color:var(--rose);text-decoration:none;display:inline-block;margin-top:8px}
 .alink:hover{text-decoration:underline}
 
-/* UPLOAD */
-.upzone{border:1.5px dashed var(--border);border-radius:12px;padding:2.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.25s;position:relative;background:#fafafa}
-.upzone:hover{border-color:var(--rose);background:var(--rose-light)}
-.upzone input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:2}
-.uico{font-size:2rem;display:block;margin-bottom:0.5rem}
-.utitle{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--rose-dark)}
-.usub{font-size:12px;color:var(--muted);margin-top:4px}
-.prevwrap{margin-top:1rem;display:none;border-radius:10px;overflow:hidden;border:0.5px solid var(--border);position:relative}
-.prevwrap img{width:100%;max-height:260px;object-fit:cover;display:block}
-.prevover{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,10,18,0.75));padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center}
-.prevbadge{color:#fff;font-size:12px}
-.chbtn{font-size:11px;background:rgba(255,255,255,0.2);color:#fff;border:0.5px solid rgba(255,255,255,0.4);border-radius:6px;padding:3px 9px;cursor:pointer;font-family:'DM Sans',sans-serif}
+/* MULTI UPLOAD */
+.upload-area{border:1.5px dashed var(--border);border-radius:12px;padding:1.5rem;background:#fafafa;transition:all 0.2s}
+.upload-area:hover{border-color:var(--rose);background:var(--rose-light)}
+.upload-trigger{display:flex;align-items:center;gap:12px;cursor:pointer}
+.upload-trigger input{display:none}
+.upload-icon-box{width:52px;height:52px;border-radius:10px;background:var(--rose-light);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.upload-text-main{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--rose-dark)}
+.upload-text-sub{font-size:12px;color:var(--muted);margin-top:2px}
 
-/* PROMPT AREA */
-.prompt-area{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.9rem 1rem;font-family:'DM Sans',sans-serif;font-size:14px;background:#fafafa;color:var(--dark);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border 0.2s}
+/* FOTOS PREVIEW GRID */
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:1rem}
+.photo-thumb{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;border:0.5px solid var(--border)}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-badge{position:absolute;top:5px;left:5px;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500}
+.badge-face{background:var(--rose);color:#fff}
+.badge-body{background:var(--gold);color:#fff}
+.badge-extra{background:#5a3a8a;color:#fff}
+.photo-remove{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.6);color:#fff;border:none;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;line-height:1}
+.add-more{border:1.5px dashed var(--border);border-radius:10px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:1.5rem;color:var(--muted);transition:all 0.2s;position:relative}
+.add-more input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.add-more:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
+.add-more-label{font-size:10px;margin-top:4px}
+
+.tips-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1rem}
+.tip{background:var(--rose-light);border:0.5px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem;font-size:11px;color:var(--rose-dark);line-height:1.5}
+.tip strong{display:block;margin-bottom:2px}
+
+/* PROMPT */
+.prompt-area{width:100%;border:0.5px solid var(--border);border-radius:10px;padding:0.9rem 1rem;font-family:'DM Sans',sans-serif;font-size:14px;background:#fafafa;color:var(--dark);outline:none;resize:vertical;min-height:130px;line-height:1.7;transition:border 0.2s}
 .prompt-area:focus{border-color:var(--rose);background:#fff}
 
-/* SUGESTÕES */
 .sug-label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;margin-top:1.25rem;display:block}
 .sug-grid{display:flex;flex-wrap:wrap;gap:6px}
 .sug{border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;cursor:pointer;transition:all 0.15s;background:var(--surface);color:var(--muted)}
 .sug:hover{border-color:var(--rose);color:var(--rose);background:var(--rose-light)}
+.sug.active{border-color:var(--rose);background:var(--rose);color:#fff}
 
-/* PROPORÇÃO */
 .prop-row{display:flex;gap:8px;margin-top:0.5rem}
 .prop{flex:1;border:1px solid var(--border);border-radius:8px;padding:0.6rem;text-align:center;cursor:pointer;font-size:12px;color:var(--muted);transition:all 0.2s;background:var(--surface)}
 .prop:hover{border-color:var(--rose);color:var(--rose)}
 .prop.sel{border-color:var(--rose);background:var(--rose);color:#fff}
 
-/* GERAR BTN */
+.info{background:var(--gold-light);border:0.5px solid #d4a96a;border-radius:10px;padding:0.9rem 1.1rem;font-size:12px;color:#6b4a1a;line-height:1.7;margin-top:0.75rem}
+.errbox{background:#fff0f0;border:0.5px solid #f0a0a0;border-radius:10px;padding:0.9rem 1.1rem;font-size:13px;color:#8a2020;display:none;margin-top:0.75rem;line-height:1.6}
+
 .genbtn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;border:none;border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(201,64,112,0.35);margin-top:1.5rem}
 .genbtn:hover{box-shadow:0 6px 28px rgba(201,64,112,0.5);transform:translateY(-1px)}
 .genbtn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
-
-/* INFO */
-.info{background:var(--gold-light);border:0.5px solid #d4a96a;border-radius:10px;padding:0.9rem 1.1rem;font-size:12px;color:#6b4a1a;line-height:1.7;margin-top:0.75rem}
-.errbox{background:#fff0f0;border:0.5px solid #f0a0a0;border-radius:10px;padding:0.9rem 1.1rem;font-size:13px;color:#8a2020;display:none;margin-top:0.75rem;line-height:1.6}
 
 /* LOADING */
 .loadcard{background:var(--surface);border:0.5px solid var(--border);border-radius:16px;padding:3rem 2rem;text-align:center;display:none;margin-bottom:1.25rem}
 .dots{display:inline-flex;gap:8px;margin-bottom:1rem}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--rose);animation:pulse 1.4s infinite}
-.dot:nth-child(2){animation-delay:0.22s}
-.dot:nth-child(3){animation-delay:0.44s}
+.dot:nth-child(2){animation-delay:0.22s}.dot:nth-child(3){animation-delay:0.44s}
 @keyframes pulse{0%,100%{transform:scale(0.5);opacity:0.2}50%{transform:scale(1);opacity:1}}
-.loadtitle{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--rose-dark)}
+.loadtitle{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rose-dark)}
 .loadmsg{font-size:13px;color:var(--muted);font-style:italic;margin-top:0.5rem}
 .progwrap{margin-top:1.5rem;background:var(--border);border-radius:4px;height:3px;overflow:hidden}
 .progfill{height:100%;background:linear-gradient(90deg,var(--rose-light),var(--rose));border-radius:4px;transition:width 1s ease;width:0%}
+.load-steps{display:flex;justify-content:center;gap:6px;margin-top:1rem;flex-wrap:wrap}
+.lstep{font-size:10px;padding:3px 10px;border-radius:20px;border:0.5px solid var(--border);color:var(--muted);background:var(--surface)}
+.lstep.done{background:var(--rose);color:#fff;border-color:var(--rose)}
+.lstep.active{border-color:var(--rose);color:var(--rose)}
 
 /* RESULT */
 .resultcard{display:none;background:var(--surface);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(201,64,112,0.15);margin-bottom:1.25rem}
@@ -125,44 +139,51 @@ header{text-align:center;padding:2rem 0 2.5rem}
   <a class="alink" href="https://fal.ai/dashboard/keys" target="_blank">→ Criar chave em fal.ai/dashboard/keys</a>
 </div>
 
-<!-- FOTO -->
+<!-- FOTOS DE REFERÊNCIA -->
 <div class="card">
-  <div class="card-title">📷 Sua foto de referência</div>
-  <div class="card-sub">A IA usa seu rosto para criar o ensaio. Foto com rosto visível e boa iluminação dá os melhores resultados.</div>
-  <div class="upzone">
-    <input type="file" accept="image/jpeg,image/png,image/webp" id="fileInput" onchange="handleFile(event)">
-    <span class="uico">📸</span>
-    <div class="utitle">Clique ou arraste sua foto</div>
-    <div class="usub">JPG · PNG · WEBP · máx 10MB</div>
+  <div class="card-title">📷 Fotos de referência</div>
+  <div class="card-sub">Adicione até 5 fotos. Quanto mais variadas (rosto de frente, corpo inteiro, diferentes ângulos), mais fiel o resultado.</div>
+
+  <div class="upload-area" id="uploadArea">
+    <label class="upload-trigger">
+      <input type="file" accept="image/jpeg,image/png,image/webp" multiple id="fileInput" onchange="handleFiles(event)">
+      <div class="upload-icon-box">📸</div>
+      <div>
+        <div class="upload-text-main">Clique para adicionar fotos</div>
+        <div class="upload-text-sub">JPG · PNG · WEBP · até 5 fotos · máx 10MB cada</div>
+      </div>
+    </label>
   </div>
-  <div class="prevwrap" id="prevwrap">
-    <img id="previmg" src="" alt="">
-    <div class="prevover">
-      <div class="prevbadge">✓ Foto carregada</div>
-      <label for="fileInput" style="margin:0"><div class="chbtn">Trocar</div></label>
-    </div>
+
+  <div class="photos-grid" id="photosGrid" style="display:none"></div>
+
+  <div class="tips-row">
+    <div class="tip"><strong>📸 1ª foto — Rosto</strong>Rosto de frente, bem iluminado, expressão neutra. É a mais importante.</div>
+    <div class="tip"><strong>🧍 2ª foto — Corpo</strong>Foto de corpo inteiro ou meio corpo para capturar proporções e tom de pele.</div>
+    <div class="tip"><strong>↕️ 3ª foto — Perfil</strong>Rosto de lado ou ¾ para capturar profundidade facial.</div>
+    <div class="tip"><strong>✨ 4ª e 5ª — Extras</strong>Qualquer foto adicional que ajude a capturar suas características.</div>
   </div>
 </div>
 
 <!-- PROMPT -->
 <div class="card">
   <div class="card-title">✍️ Descreva o ensaio</div>
-  <div class="card-sub">Escreva o que você quer: roupa, cenário, pose, iluminação. A IA mantém seu rosto e gera tudo do zero.</div>
+  <div class="card-sub">Escreva o que você quer. Seja específica — roupa, cenário, pose, iluminação. Clique nas sugestões para usar prompts prontos.</div>
 
-  <textarea class="prompt-area" id="prompt" placeholder="Ex: ensaio sensual em quarto luxuoso com lingerie preta de renda, deitada na cama de lençóis de seda, iluminação suave de vela, fundo com flores rosas..."></textarea>
+  <textarea class="prompt-area" id="prompt" placeholder="Ex: ensaio sensual em quarto luxuoso com lingerie preta de renda, deitada na cama de lençóis de seda brancos, iluminação suave de vela, pétalas de rosa vermelhas no chão..."></textarea>
 
-  <span class="sug-label">Sugestões rápidas — clique para adicionar ao prompt</span>
+  <span class="sug-label">Estilos prontos</span>
   <div class="sug-grid">
-    <div class="sug" onclick="addSug('ensaio sensual boudoir em quarto luxuoso, lingerie de renda preta, lençóis de seda, luz de vela suave')">🌹 Boudoir íntimo</div>
-    <div class="sug" onclick="addSug('ensaio sensual na praia ao pôr do sol, biquíni fio dental branco, areia fina, luz dourada do golden hour')">🌊 Praia & Sol</div>
-    <div class="sug" onclick="addSug('ensaio editorial de luxo, lingerie de grife, fundo branco neutro, iluminação dramática de estúdio profissional')">✨ Editorial luxo</div>
-    <div class="sug" onclick="addSug('ensaio dark glam, body de renda preta, fundo escuro, iluminação cinematográfica, estética noir')">🖤 Dark Glam</div>
-    <div class="sug" onclick="addSug('ensaio artístico com flores, nude artístico tasteful, jardim botânico, luz natural difusa, etéreo')">🍃 Arte & Natureza</div>
-    <div class="sug" onclick="addSug('ensaio neon cyberpunk, body metálico, luzes neon roxas e rosas, cidade à noite, futurista')">💜 Neon Cyber</div>
-    <div class="sug" onclick="addSug('ensaio luxo árabe, vestido longo dourado, palácio ornamentado, véu transparente, iluminação quente')">🏺 Luxo Árabe</div>
-    <div class="sug" onclick="addSug('ensaio vintage pin-up anos 50, biquíni de bolinhas, cores pastéis, pose retrô divertida, grão de filme')">🎀 Vintage Pin-up</div>
-    <div class="sug" onclick="addSug('ensaio em piscina infinita com vista para o mar, biquíni colorido, luz tropical, resort de luxo')">🏊 Piscina & Resort</div>
-    <div class="sug" onclick="addSug('ensaio íntimo em banheira com espuma, nude artístico, velas ao redor, pétalas de rosa, luz quente')">🛁 Banheira sensual</div>
+    <div class="sug" onclick="setSug(this,'ensaio sensual boudoir em quarto luxuoso, lingerie de renda preta, deitada em cama com lençóis de seda brancos, iluminação suave de velas, pétalas de rosa, atmosfera romântica e íntima')">🌹 Boudoir íntimo</div>
+    <div class="sug" onclick="setSug(this,'ensaio sensual na praia ao pôr do sol, biquíni fio dental branco, cabelos ao vento, areia fina, água cristalina, luz dourada do golden hour, verão tropical')">🌊 Praia dourada</div>
+    <div class="sug" onclick="setSug(this,'ensaio editorial de moda, lingerie de grife preta, fundo branco neutro de estúdio, iluminação dramática profissional, pose de modelo de revista, alta moda')">✨ Editorial luxo</div>
+    <div class="sug" onclick="setSug(this,'ensaio dark glam, body de renda preta, fundo completamente escuro, iluminação cinematográfica com sombras profundas, estética noir misteriosa, veludo e renda')">🖤 Dark Glam noir</div>
+    <div class="sug" onclick="setSug(this,'ensaio artístico com flores, jardim botânico luxuoso, vestido transparente fluindo, luz natural difusa e etérea, pétalas ao redor, atmosfera de sonho')">🍃 Arte & Natureza</div>
+    <div class="sug" onclick="setSug(this,'ensaio neon cyberpunk urbano, body metálico prateado, luzes neon roxas e rosas ao fundo, rua da cidade à noite com chuva, reflexos no asfalto molhado, futurista')">💜 Neon Cyber</div>
+    <div class="sug" onclick="setSug(this,'ensaio luxo árabe em palácio oriental, vestido longo dourado bordado, véu transparente dourado, decoração árabe ornamentada com ouro, luz quente e exótica, misteriosa')">🏺 Luxo Árabe</div>
+    <div class="sug" onclick="setSug(this,'ensaio íntimo em banheira com espuma branca, pétalas de rosa vermelhas flutuando, velas ao redor, nude artístico tasteful, luz quente e dourada, luxuoso e sensual')">🛁 Banheira sensual</div>
+    <div class="sug" onclick="setSug(this,'ensaio em piscina infinita com vista para o mar, biquíni colorido vibrante, água azul cristalina, resort de luxo à beira-mar, luz tropical, verão e sofisticação')">🏊 Resort de luxo</div>
+    <div class="sug" onclick="setSug(this,'ensaio vintage pin-up anos 1950, biquíni de bolinhas coloridas, cores pastéis, maquiagem retrô com batom vermelho, pose pin-up divertida e glamourosa, grão de filme vintage')">🎀 Vintage Pin-up</div>
   </div>
 
   <span class="sug-label" style="margin-top:1.5rem">Proporção da imagem</span>
@@ -173,8 +194,8 @@ header{text-align:center;padding:2rem 0 2.5rem}
     <div class="prop" onclick="selProp(this,'landscape_4_3')">🖼 Paisagem</div>
   </div>
 
-  <div class="info" style="margin-top:1.25rem">
-    💡 <strong>Dica:</strong> Seja específica no prompt. Quanto mais detalhes você der — roupa, cor, cenário, iluminação, pose — melhor o resultado. O modelo <strong>FLUX Kontext</strong> preserva seu rosto e aplica tudo que você descrever.
+  <div class="info">
+    💡 <strong>Dica de resultado:</strong> Combine uma foto de rosto nítida + uma foto de corpo como referências. No prompt, descreva a cena com detalhes — tipo de roupa, cor, tecido, cenário, iluminação e pose. Quanto mais detalhes, melhor a IA entende o que você quer.
   </div>
 
   <div class="errbox" id="errbox"></div>
@@ -184,9 +205,15 @@ header{text-align:center;padding:2rem 0 2.5rem}
 <!-- LOADING -->
 <div class="loadcard" id="loadcard">
   <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-  <div class="loadtitle" id="loadtitle">Gerando seu ensaio...</div>
-  <div class="loadmsg" id="loadmsg">Enviando foto para fal.ai...</div>
+  <div class="loadtitle">Criando seu ensaio...</div>
+  <div class="loadmsg" id="loadmsg">Enviando fotos...</div>
   <div class="progwrap"><div class="progfill" id="progfill"></div></div>
+  <div class="load-steps">
+    <div class="lstep" id="ls0">📤 Upload</div>
+    <div class="lstep" id="ls1">🎨 Geração</div>
+    <div class="lstep" id="ls2">✨ Refinamento</div>
+    <div class="lstep" id="ls3">✅ Finalizado</div>
+  </div>
 </div>
 
 <!-- RESULTADO -->
@@ -202,140 +229,180 @@ header{text-align:center;padding:2rem 0 2.5rem}
 <script>
 let state = {
   key: localStorage.getItem('fal_key')||'',
-  file: null,
-  imageUrl: null,
+  files: [],
+  uploadedUrls: null,
   imgSize: 'portrait_4_3',
 };
 let resultUrl = '';
+const badgeLabels = ['Rosto','Corpo','Perfil','Extra','Extra'];
+const badgeColors = ['badge-face','badge-body','badge-extra','badge-extra','badge-extra'];
 
 if(state.key) document.getElementById('apiKey').value = state.key;
 
 function onKey(){
   const v = document.getElementById('apiKey').value.trim();
   state.key = v;
-  if(v.length > 20) localStorage.setItem('fal_key', v);
+  if(v.length>20) localStorage.setItem('fal_key',v);
 }
 function toggleEye(){
-  const i = document.getElementById('apiKey');
-  i.type = i.type==='password'?'text':'password';
+  const i=document.getElementById('apiKey');
+  i.type=i.type==='password'?'text':'password';
 }
 async function verifyKey(){
-  const key = document.getElementById('apiKey').value.trim();
-  if(!key){ showErr('Digite sua chave primeiro.'); return; }
-  const r = await fetch('/api/credits',{headers:{'x-fal-key':key}});
-  const d = await r.json();
-  document.getElementById('kok').style.display  = d.valid?'block':'none';
-  document.getElementById('kerr').style.display = d.valid?'none':'block';
-}
-function handleFile(e){
-  const f = e.target.files[0];
-  if(!f) return;
-  if(f.size > 10*1024*1024){ showErr('Arquivo muito grande. Máximo 10MB.'); return; }
-  state.file = f; state.imageUrl = null;
-  document.getElementById('previmg').src = URL.createObjectURL(f);
-  document.getElementById('prevwrap').style.display = 'block';
-  hideErr();
-}
-function addSug(text){
-  const el = document.getElementById('prompt');
-  el.value = text;
-  el.focus();
-}
-function selProp(el, val){
-  document.querySelectorAll('.prop').forEach(p=>p.classList.remove('sel'));
-  el.classList.add('sel');
-  state.imgSize = val;
+  const key=document.getElementById('apiKey').value.trim();
+  if(!key){showErr('Digite sua chave primeiro.');return;}
+  const r=await fetch('/api/credits',{headers:{'x-fal-key':key}});
+  const d=await r.json();
+  document.getElementById('kok').style.display=d.valid?'block':'none';
+  document.getElementById('kerr').style.display=d.valid?'none':'block';
 }
 
-const steps = [
-  [10,'Fazando upload da sua foto...'],
-  [30,'Inicializando FLUX Kontext...'],
-  [55,'Gerando o ensaio com seu rosto...'],
-  [78,'Aplicando detalhes finais...'],
-  [90,'Quase pronto...'],
-];
+function handleFiles(e){
+  const newFiles = Array.from(e.target.files);
+  const remaining = 5 - state.files.length;
+  const toAdd = newFiles.slice(0, remaining);
+  state.files = [...state.files, ...toAdd];
+  state.uploadedUrls = null;
+  renderPhotos();
+  hideErr();
+}
+
+function removePhoto(idx){
+  state.files.splice(idx,1);
+  state.uploadedUrls = null;
+  renderPhotos();
+}
+
+function renderPhotos(){
+  const grid = document.getElementById('photosGrid');
+  if(state.files.length===0){ grid.style.display='none'; return; }
+  grid.style.display='grid';
+  grid.innerHTML='';
+  state.files.forEach((f,i)=>{
+    const url = URL.createObjectURL(f);
+    const div = document.createElement('div');
+    div.className='photo-thumb';
+    div.innerHTML=`<img src="${url}" alt="foto ${i+1}">
+      <span class="photo-badge ${badgeColors[i]}">${badgeLabels[i]}</span>
+      <button class="photo-remove" onclick="removePhoto(${i})">×</button>`;
+    grid.appendChild(div);
+  });
+  // Botão adicionar mais se < 5
+  if(state.files.length<5){
+    const add=document.createElement('div');
+    add.className='add-more';
+    add.innerHTML=`<input type="file" accept="image/jpeg,image/png,image/webp" multiple onchange="handleFiles(event)">
+      <span>＋</span><span class="add-more-label">Adicionar</span>`;
+    grid.appendChild(add);
+  }
+}
+
+function setSug(el,text){
+  document.querySelectorAll('.sug').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('prompt').value=text;
+}
+function selProp(el,val){
+  document.querySelectorAll('.prop').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');
+  state.imgSize=val;
+}
+
+function setStep(n){
+  ['ls0','ls1','ls2','ls3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.classList.remove('done','active');
+    if(i<n) el.classList.add('done');
+    if(i===n) el.classList.add('active');
+  });
+}
 
 async function generate(){
   const key    = document.getElementById('apiKey').value.trim();
   const prompt = document.getElementById('prompt').value.trim();
 
-  if(!key)    { showErr('Insira sua chave API do fal.ai.'); return; }
-  if(!state.file){ showErr('Adicione uma foto de referência.'); return; }
-  if(!prompt) { showErr('Escreva uma descrição do ensaio.'); return; }
+  if(!key)              {showErr('Insira sua chave API do fal.ai.');return;}
+  if(state.files.length===0){showErr('Adicione pelo menos uma foto de referência.');return;}
+  if(!prompt)           {showErr('Escreva uma descrição do ensaio ou clique em um estilo pronto.');return;}
 
-  document.getElementById('genbtn').disabled = true;
-  document.getElementById('resultcard').style.display = 'none';
-  document.getElementById('loadcard').style.display = 'block';
-  document.getElementById('progfill').style.width = '3%';
+  document.getElementById('genbtn').disabled=true;
+  document.getElementById('resultcard').style.display='none';
+  document.getElementById('loadcard').style.display='block';
+  document.getElementById('progfill').style.width='3%';
   hideErr();
+  setStep(0);
 
-  let si = 0;
-  const iv = setInterval(()=>{
-    if(si < steps.length){
-      document.getElementById('progfill').style.width = steps[si][0]+'%';
-      document.getElementById('loadmsg').textContent  = steps[si][1];
-      si++;
+  const msgs=[
+    [10,'Enviando fotos para fal.ai...'],
+    [35,'Inicializando FLUX Kontext...'],
+    [58,'Gerando ensaio com seu rosto e corpo...'],
+    [78,'Refinando identidade e detalhes...'],
+    [90,'Finalizando...'],
+  ];
+  let mi=0;
+  const iv=setInterval(()=>{
+    if(mi<msgs.length){
+      document.getElementById('progfill').style.width=msgs[mi][0]+'%';
+      document.getElementById('loadmsg').textContent=msgs[mi][1];
+      if(mi===0) setStep(0);
+      if(mi===2) setStep(1);
+      if(mi===3) setStep(2);
+      mi++;
     }
-  }, 4000);
+  },4500);
 
   try {
-    // Upload
-    if(!state.imageUrl){
-      const fd = new FormData();
-      fd.append('image', state.file);
-      const ur = await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':key},body:fd});
-      if(!ur.ok){ const e=await ur.json().catch(()=>({})); throw new Error(e.error||'Erro no upload.'); }
-      state.imageUrl = (await ur.json()).url;
+    // Upload das fotos (só se não fez antes)
+    if(!state.uploadedUrls){
+      const fd=new FormData();
+      state.files.forEach(f=>fd.append('images',f));
+      const ur=await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':key},body:fd});
+      if(!ur.ok){const e=await ur.json().catch(()=>({}));throw new Error(e.error||'Erro no upload.');}
+      state.uploadedUrls=(await ur.json()).urls;
     }
 
     // Gerar
-    // Monta prompt final em inglês para melhor resultado
-    const finalPrompt = `Keep the exact same face, facial features, skin tone and identity of the person in the reference image. ${prompt}. Photorealistic, high quality, 8k, professional photography, sharp focus.`;
-
-    const gr = await fetch('/api/generate',{
+    const gr=await fetch('/api/generate',{
       method:'POST',
       headers:{'x-fal-key':key,'Content-Type':'application/json'},
-      body: JSON.stringify({ image_url: state.imageUrl, prompt: finalPrompt, image_size: state.imgSize })
+      body:JSON.stringify({image_urls:state.uploadedUrls, prompt, image_size:state.imgSize})
     });
 
     clearInterval(iv);
 
-    if(!gr.ok){ const e=await gr.json().catch(()=>({})); throw new Error(e.error||'Erro na geração.'); }
+    if(!gr.ok){const e=await gr.json().catch(()=>({}));throw new Error(e.error||'Erro na geração.');}
 
-    const d = await gr.json();
-    document.getElementById('progfill').style.width = '100%';
-    resultUrl = d.url;
+    const d=await gr.json();
+    document.getElementById('progfill').style.width='100%';
+    setStep(3);
+    resultUrl=d.url;
 
     setTimeout(()=>{
-      document.getElementById('loadcard').style.display  = 'none';
-      document.getElementById('resultimg').src = d.url;
-      document.getElementById('resultcard').style.display = 'block';
-      document.getElementById('genbtn').disabled = false;
-    }, 500);
+      document.getElementById('loadcard').style.display='none';
+      document.getElementById('resultimg').src=d.url;
+      document.getElementById('resultcard').style.display='block';
+      document.getElementById('genbtn').disabled=false;
+    },600);
 
-  } catch(err){
+  }catch(err){
     clearInterval(iv);
-    document.getElementById('loadcard').style.display = 'none';
-    document.getElementById('genbtn').disabled = false;
+    document.getElementById('loadcard').style.display='none';
+    document.getElementById('genbtn').disabled=false;
     showErr('❌ '+err.message);
   }
 }
 
 function gerarNovamente(){
-  document.getElementById('resultcard').style.display = 'none';
+  document.getElementById('resultcard').style.display='none';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function download(){
-  const a = document.createElement('a');
-  a.href = resultUrl;
-  a.download = `ensaio-${Date.now()}.jpg`;
-  a.target = '_blank'; a.click();
+  const a=document.createElement('a');
+  a.href=resultUrl;a.download=`ensaio-${Date.now()}.jpg`;
+  a.target='_blank';a.click();
 }
-function showErr(msg){
-  const el = document.getElementById('errbox');
-  el.textContent = msg; el.style.display = 'block';
-}
-function hideErr(){ document.getElementById('errbox').style.display='none'; }
+function showErr(msg){const el=document.getElementById('errbox');el.textContent=msg;el.style.display='block';}
+function hideErr(){document.getElementById('errbox').style.display='none';}
 </script>
 </body>
 </html>
