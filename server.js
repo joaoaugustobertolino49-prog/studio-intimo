@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/server.js << 'EOF'
 const express = require('express');
 const multer  = require('multer');
 const cors    = require('cors');
@@ -123,4 +122,3 @@ app.get('/api/credits', async (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Studio rodando na porta ${PORT}`));
-EOF
