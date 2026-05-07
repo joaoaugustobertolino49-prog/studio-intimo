@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Faz upload de qualquer buffer para fal.ai storage
 async function uploadBufferToFal(buffer, mimetype, filename, key) {
   const initResp = await fetch('https://rest.alpha.fal.ai/storage/upload/initiate', {
     method: 'POST',
@@ -19,19 +18,16 @@ async function uploadBufferToFal(buffer, mimetype, filename, key) {
   });
   if (!initResp.ok) {
     const e = await initResp.json().catch(() => ({}));
-    throw new Error(e.detail || 'Erro ao iniciar upload.');
+    throw new Error('Upload initiate falhou: ' + (e.detail || initResp.status));
   }
   const { upload_url, file_url } = await initResp.json();
   const put = await fetch(upload_url, {
-    method: 'PUT',
-    headers: { 'Content-Type': mimetype },
-    body: buffer,
+    method: 'PUT', headers: { 'Content-Type': mimetype }, body: buffer,
   });
-  if (!put.ok) throw new Error('Erro ao enviar para storage.');
+  if (!put.ok) throw new Error('PUT falhou: ' + put.status);
   return file_url;
 }
 
-// Upload da foto do usuário
 app.post('/api/upload', upload.array('images', 5), async (req, res) => {
   try {
     const key = req.headers['x-fal-key'];
@@ -40,7 +36,7 @@ app.post('/api/upload', upload.array('images', 5), async (req, res) => {
     const urls = await Promise.all(
       req.files.map(f => uploadBufferToFal(f.buffer, f.mimetype, f.originalname, key))
     );
-    console.log('[UPLOAD] Fotos enviadas:', urls.length);
+    console.log('[UPLOAD OK]', urls.length, 'foto(s)');
     res.json({ urls });
   } catch (err) {
     console.error('[UPLOAD ERROR]', err.message);
@@ -48,7 +44,6 @@ app.post('/api/upload', upload.array('images', 5), async (req, res) => {
   }
 });
 
-// Geração: baixa template → sobe pro fal.ai → face swap
 app.post('/api/generate', async (req, res) => {
   try {
     const key = req.headers['x-fal-key'];
@@ -56,99 +51,86 @@ app.post('/api/generate', async (req, res) => {
 
     const { face_image_url, template_url } = req.body;
     if (!face_image_url || !template_url) {
-      return res.status(400).json({ error: 'face_image_url e template_url são obrigatórios.' });
+      return res.status(400).json({ error: 'Parâmetros ausentes.' });
     }
 
-    console.log('[GENERATE] face_image_url:', face_image_url.substring(0, 80));
-    console.log('[GENERATE] template_url:', template_url.substring(0, 80));
+    console.log('[STEP 1] Baixando template:', template_url.substring(0, 100));
 
-    // Baixar o template e re-hospedar no fal.ai storage
-    // (fal.ai precisa de URL própria para processar)
-    let finalTemplateUrl = template_url;
-
-    // Se for URL do GitHub raw ou base64, fazer re-upload
-    if (template_url.startsWith('data:') || template_url.includes('raw.githubusercontent.com') || template_url.includes('github')) {
-      console.log('[GENERATE] Re-hospedando template no fal.ai storage...');
-      try {
-        let imageBuffer;
-        let mimeType = 'image/jpeg';
-
-        if (template_url.startsWith('data:')) {
-          // base64
-          const matches = template_url.match(/^data:([^;]+);base64,(.+)$/);
-          mimeType = matches[1];
-          imageBuffer = Buffer.from(matches[2], 'base64');
-        } else {
-          // URL externa — baixar
-          const fetchResp = await fetch(template_url);
-          if (!fetchResp.ok) throw new Error(`Erro ao baixar template: ${fetchResp.status}`);
-          const arrayBuf = await fetchResp.arrayBuffer();
-          imageBuffer = Buffer.from(arrayBuf);
-          mimeType = fetchResp.headers.get('content-type') || 'image/jpeg';
-        }
-
-        finalTemplateUrl = await uploadBufferToFal(imageBuffer, mimeType, 'template.jpg', key);
-        console.log('[GENERATE] Template re-hospedado:', finalTemplateUrl.substring(0, 80));
-      } catch (uploadErr) {
-        console.warn('[GENERATE] Re-upload falhou, tentando URL direta:', uploadErr.message);
-        // Continua com URL original como fallback
-      }
+    // Baixar template
+    let imageBuffer, mimeType;
+    if (template_url.startsWith('data:')) {
+      const m = template_url.match(/^data:([^;]+);base64,(.+)$/);
+      if (!m) throw new Error('base64 inválido');
+      mimeType = m[1];
+      imageBuffer = Buffer.from(m[2], 'base64');
+      console.log('[STEP 1] Template base64 decodificado, size:', imageBuffer.length);
+    } else {
+      const fetchResp = await fetch(template_url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+      console.log('[STEP 1] Fetch status:', fetchResp.status);
+      if (!fetchResp.ok) throw new Error('Erro ao baixar template: HTTP ' + fetchResp.status);
+      const arrayBuf = await fetchResp.arrayBuffer();
+      imageBuffer = Buffer.from(arrayBuf);
+      mimeType = fetchResp.headers.get('content-type') || 'image/jpeg';
+      console.log('[STEP 1] Template baixado, size:', imageBuffer.length, 'mime:', mimeType);
     }
 
-    // Chamada Easel AI face swap
+    console.log('[STEP 2] Fazendo upload do template para fal.ai...');
+    const templateFalUrl = await uploadBufferToFal(imageBuffer, 'image/jpeg', 'template.jpg', key);
+    console.log('[STEP 2] Template URL fal.ai:', templateFalUrl.substring(0, 80));
+
+    console.log('[STEP 3] Chamando face swap...');
+    console.log('[STEP 3] face_image_0:', face_image_url.substring(0, 80));
+    console.log('[STEP 3] target_image:', templateFalUrl.substring(0, 80));
+
     const body = {
       face_image_0:  face_image_url,
-      target_image:  finalTemplateUrl,
+      target_image:  templateFalUrl,
       workflow_type: 'user_hair',
       gender_0:      'female',
       upscale:       true,
     };
 
-    console.log('[GENERATE] Chamando easel-ai/advanced-face-swap...');
-
     const resp = await fetch('https://fal.run/easel-ai/advanced-face-swap', {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Authorization': `Key ${key}`, 'Content-Type': 'application/json' },
-      body:    JSON.stringify(body),
+      body: JSON.stringify(body),
     });
 
     const raw = await resp.text();
-    console.log('[FAL STATUS]', resp.status);
-    console.log('[FAL BODY]', raw.substring(0, 400));
+    console.log('[STEP 3] FAL status:', resp.status);
+    console.log('[STEP 3] FAL body:', raw.substring(0, 500));
 
     if (!resp.ok) {
       let msg = `Erro fal.ai ${resp.status}`;
       try {
         const e = JSON.parse(raw);
         if (Array.isArray(e.detail)) {
-          msg = e.detail.map(d => `${d.loc?.slice(-1)}: ${d.msg}`).join(' | ');
+          msg = e.detail.map(d => `${JSON.stringify(d.loc)}: ${d.msg}`).join(' | ');
         } else {
           msg = e.detail || e.message || e.error || msg;
         }
-      } catch(_) { msg = raw.substring(0, 200) || msg; }
+      } catch(_) { msg = raw.substring(0, 300) || msg; }
       if (resp.status === 401) return res.status(401).json({ error: 'Chave inválida ou sem créditos.' });
       return res.status(resp.status).json({ error: msg });
     }
 
-    let data;
-    try { data = JSON.parse(raw); }
-    catch(_) { return res.status(500).json({ error: 'Resposta inválida do fal.ai.' }); }
-
+    const data = JSON.parse(raw);
     const url = data?.image?.url || data?.images?.[0]?.url;
     if (!url) {
-      console.error('[FAL] Sem URL. Resposta:', JSON.stringify(data).substring(0, 300));
-      return res.status(500).json({ error: 'Sem imagem na resposta: ' + JSON.stringify(data).substring(0, 150) });
+      console.error('[STEP 3] Sem URL. Resposta completa:', JSON.stringify(data));
+      return res.status(500).json({ error: 'Sem imagem na resposta.' });
     }
 
     console.log('[RESULT]', url.substring(0, 80));
     res.json({ url });
+
   } catch (err) {
-    console.error('[GENERATE ERROR]', err.message);
+    console.error('[GENERATE EXCEPTION]', err.message);
+    console.error('[GENERATE STACK]', err.stack);
     res.status(500).json({ error: err.message });
   }
 });
 
-// Verificar chave
 app.get('/api/credits', async (req, res) => {
   try {
     const key = req.headers['x-fal-key'];
