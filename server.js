@@ -10,137 +10,130 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-async function uploadBufferToFal(buffer, mimetype, filename, key) {
-  const initResp = await fetch('https://rest.alpha.fal.ai/storage/upload/initiate', {
-    method: 'POST',
-    headers: { 'Authorization': `Key ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ file_name: filename, content_type: mimetype }),
-  });
-  if (!initResp.ok) {
-    const e = await initResp.json().catch(() => ({}));
-    throw new Error('Upload initiate falhou: ' + (e.detail || initResp.status));
-  }
-  const { upload_url, file_url } = await initResp.json();
-  const put = await fetch(upload_url, {
-    method: 'PUT', headers: { 'Content-Type': mimetype }, body: buffer,
-  });
-  if (!put.ok) throw new Error('PUT falhou: ' + put.status);
-  return file_url;
+// Converte imagem para base64
+function toBase64(buffer, mimetype) {
+  return `data:${mimetype};base64,${buffer.toString('base64')}`;
 }
 
-app.post('/api/upload', upload.array('images', 5), async (req, res) => {
+// Upload da foto do usuário
+app.post('/api/upload', upload.single('image'), async (req, res) => {
   try {
-    const key = req.headers['x-fal-key'];
-    if (!key) return res.status(401).json({ error: 'Chave API não fornecida.' });
-    if (!req.files?.length) return res.status(400).json({ error: 'Nenhuma imagem enviada.' });
-    const urls = await Promise.all(
-      req.files.map(f => uploadBufferToFal(f.buffer, f.mimetype, f.originalname, key))
-    );
-    console.log('[UPLOAD OK]', urls.length, 'foto(s)');
-    res.json({ urls });
+    if (!req.file) return res.status(400).json({ error: 'Nenhuma imagem enviada.' });
+    const b64 = toBase64(req.file.buffer, req.file.mimetype);
+    console.log(`[UPLOAD] Foto convertida, size: ${Math.round(b64.length/1024)}KB`);
+    res.json({ url: b64 });
   } catch (err) {
     console.error('[UPLOAD ERROR]', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
+// Inicia geração no Pollo AI
 app.post('/api/generate', async (req, res) => {
   try {
-    const key = req.headers['x-fal-key'];
+    const key = req.headers['x-api-key'];
     if (!key) return res.status(401).json({ error: 'Chave API não fornecida.' });
 
-    const { face_image_url, template_url } = req.body;
-    if (!face_image_url || !template_url) {
-      return res.status(400).json({ error: 'Parâmetros ausentes.' });
+    const { image_base64, prompt } = req.body;
+    if (!image_base64 || !prompt) {
+      return res.status(400).json({ error: 'image_base64 e prompt são obrigatórios.' });
     }
 
-    console.log('[STEP 1] Baixando template:', template_url.substring(0, 100));
-
-    // Baixar template
-    let imageBuffer, mimeType;
-    if (template_url.startsWith('data:')) {
-      const m = template_url.match(/^data:([^;]+);base64,(.+)$/);
-      if (!m) throw new Error('base64 inválido');
-      mimeType = m[1];
-      imageBuffer = Buffer.from(m[2], 'base64');
-      console.log('[STEP 1] Template base64 decodificado, size:', imageBuffer.length);
-    } else {
-      const fetchResp = await fetch(template_url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-      console.log('[STEP 1] Fetch status:', fetchResp.status);
-      if (!fetchResp.ok) throw new Error('Erro ao baixar template: HTTP ' + fetchResp.status);
-      const arrayBuf = await fetchResp.arrayBuffer();
-      imageBuffer = Buffer.from(arrayBuf);
-      mimeType = fetchResp.headers.get('content-type') || 'image/jpeg';
-      console.log('[STEP 1] Template baixado, size:', imageBuffer.length, 'mime:', mimeType);
-    }
-
-    console.log('[STEP 2] Fazendo upload do template para fal.ai...');
-    const templateFalUrl = await uploadBufferToFal(imageBuffer, 'image/jpeg', 'template.jpg', key);
-    console.log('[STEP 2] Template URL fal.ai:', templateFalUrl.substring(0, 80));
-
-    console.log('[STEP 3] Chamando face swap...');
-    console.log('[STEP 3] face_image_0:', face_image_url.substring(0, 80));
-    console.log('[STEP 3] target_image:', templateFalUrl.substring(0, 80));
+    console.log('[GENERATE] Enviando para Pollo 2.0...');
+    console.log('[GENERATE] Prompt:', prompt.substring(0, 80) + '...');
 
     const body = {
-      face_image_0:  face_image_url,
-      target_image:  templateFalUrl,
-      workflow_type: 'user_hair',
-      gender_0:      'female',
-      upscale:       true,
+      input: {
+        image:         image_base64,
+        prompt:        prompt,
+        generateAudio: false,
+        length:        5,
+        resolution:    '720p',
+      }
     };
 
-    const resp = await fetch('https://fal.run/easel-ai/advanced-face-swap', {
-      method: 'POST',
-      headers: { 'Authorization': `Key ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+    const resp = await fetch('https://pollo.ai/api/platform/generation/pollo/pollo-v2-0', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': key },
+      body:    JSON.stringify(body),
     });
 
     const raw = await resp.text();
-    console.log('[STEP 3] FAL status:', resp.status);
-    console.log('[STEP 3] FAL body:', raw.substring(0, 500));
+    console.log('[POLLO STATUS]', resp.status);
+    console.log('[POLLO BODY]', raw.substring(0, 300));
 
     if (!resp.ok) {
-      let msg = `Erro fal.ai ${resp.status}`;
-      try {
-        const e = JSON.parse(raw);
-        if (Array.isArray(e.detail)) {
-          msg = e.detail.map(d => `${JSON.stringify(d.loc)}: ${d.msg}`).join(' | ');
-        } else {
-          msg = e.detail || e.message || e.error || msg;
-        }
-      } catch(_) { msg = raw.substring(0, 300) || msg; }
-      if (resp.status === 401) return res.status(401).json({ error: 'Chave inválida ou sem créditos.' });
+      let msg = `Erro Pollo ${resp.status}`;
+      try { const e = JSON.parse(raw); msg = e.message || e.error || JSON.stringify(e); } catch(_) { msg = raw.substring(0,200); }
+      if (resp.status === 401) return res.status(401).json({ error: 'Chave inválida ou sem créditos. Verifique em pollo.ai/api-platform.' });
       return res.status(resp.status).json({ error: msg });
     }
 
     const data = JSON.parse(raw);
-    const url = data?.image?.url || data?.images?.[0]?.url;
-    if (!url) {
-      console.error('[STEP 3] Sem URL. Resposta completa:', JSON.stringify(data));
-      return res.status(500).json({ error: 'Sem imagem na resposta.' });
+    const taskId = data?.taskId || data?.data?.taskId || data?.id;
+    if (!taskId) {
+      console.error('[POLLO] Sem taskId:', raw);
+      return res.status(500).json({ error: 'taskId não retornado: ' + raw.substring(0, 150) });
     }
 
-    console.log('[RESULT]', url.substring(0, 80));
-    res.json({ url });
+    console.log('[GENERATE] taskId:', taskId);
+    res.json({ taskId });
 
   } catch (err) {
-    console.error('[GENERATE EXCEPTION]', err.message);
-    console.error('[GENERATE STACK]', err.stack);
+    console.error('[GENERATE ERROR]', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
+// Polling do status
+app.get('/api/status/:taskId', async (req, res) => {
+  try {
+    const key = req.headers['x-api-key'];
+    if (!key) return res.status(401).json({ error: 'Chave não fornecida.' });
+
+    const resp = await fetch(`https://pollo.ai/api/platform/generation/${req.params.taskId}/status`, {
+      headers: { 'x-api-key': key },
+    });
+
+    const raw = await resp.text();
+    if (!resp.ok) {
+      let msg = `Erro status ${resp.status}`;
+      try { const e = JSON.parse(raw); msg = e.message || msg; } catch(_) {}
+      return res.status(resp.status).json({ error: msg });
+    }
+
+    const data = JSON.parse(raw);
+    const gen  = data?.generations?.[0];
+    if (!gen) return res.json({ status: 'processing' });
+
+    console.log('[STATUS]', req.params.taskId, gen.status, gen.url ? 'URL OK' : 'sem URL');
+
+    res.json({
+      status:    gen.status,
+      url:       gen.url    || null,
+      mediaType: gen.mediaType || null,
+      failMsg:   gen.failMsg   || null,
+    });
+  } catch (err) {
+    console.error('[STATUS ERROR]', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Verificar chave
 app.get('/api/credits', async (req, res) => {
   try {
-    const key = req.headers['x-fal-key'];
+    const key = req.headers['x-api-key'];
     if (!key) return res.status(401).json({ error: 'Chave não fornecida.' });
-    const r = await fetch('https://rest.alpha.fal.ai/storage/upload/initiate', {
-      method: 'POST',
-      headers: { 'Authorization': `Key ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ file_name: 'test.txt', content_type: 'text/plain' }),
+    const r = await fetch('https://pollo.ai/api/platform/credits/balance', {
+      headers: { 'x-api-key': key },
     });
-    res.json({ valid: r.status !== 401 });
+    const valid = r.status !== 401;
+    let credits = null;
+    if (valid) {
+      try { const d = await r.json(); credits = d?.balance ?? d?.credits ?? null; } catch(_) {}
+    }
+    res.json({ valid, credits });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
