@@ -83,11 +83,11 @@ app.post('/api/generate', async (req, res) => {
       let msg = `Erro Pollo ${resp.status}`;
       try {
         const e = JSON.parse(raw);
-        // Mostrar issues detalhados se existirem
         if (e.issues?.length) msg = e.issues.map(i => i.message).join(' | ');
         else msg = e.message || e.error || msg;
       } catch(_) { msg = raw.substring(0, 300); }
-      if (resp.status === 401) return res.status(401).json({ error: 'Chave Pollo inválida ou sem créditos.' });
+      if (resp.status === 401) return res.status(401).json({ error: 'Chave Pollo inválida. Verifique em pollo.ai/api-platform/keys.' });
+      if (msg.toLowerCase().includes('credit')) return res.status(402).json({ error: 'Créditos insuficientes. Adicione créditos em pollo.ai/api-platform/billing.' });
       return res.status(resp.status).json({ error: msg });
     }
 
@@ -132,10 +132,18 @@ app.get('/api/credits', async (req, res) => {
   try {
     const key = req.headers['x-api-key'];
     if (!key) return res.status(401).json({ error: 'Chave não fornecida.' });
-    const r = await fetch('https://pollo.ai/api/platform/credits/balance', { headers: { 'x-api-key': key } });
+    // Endpoint correto conforme documentação: /credit/balance (sem 's')
+    const r = await fetch('https://pollo.ai/api/platform/credit/balance', { headers: { 'x-api-key': key } });
+    const raw = await r.text();
+    console.log('[CREDITS] status:', r.status, 'body:', raw.substring(0, 200));
     const valid = r.status !== 401;
     let credits = null;
-    if (valid) { try { const d = await r.json(); credits = d?.balance ?? d?.credits ?? null; } catch(_) {} }
+    if (valid) {
+      try {
+        const d = JSON.parse(raw);
+        credits = d?.availableCredits ?? d?.balance ?? d?.credits ?? null;
+      } catch(_) {}
+    }
     res.json({ valid, credits });
   } catch (err) {
     res.status(500).json({ error: err.message });
