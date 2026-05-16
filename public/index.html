@@ -206,11 +206,15 @@ async function verifyKey(){
   const key = document.getElementById('polloKey').value.trim();
   if(!key){ showErr('Digite a chave do Pollo.ai primeiro.'); return; }
   try {
-    const r = await fetch('/api/credits', { headers:{'x-api-key':key} });
+    const r = await fetch('/api/credits', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({polloKey: key})
+    });
     const d = await r.json();
     document.getElementById('kok').style.display  = d.valid?'block':'none';
     document.getElementById('kerr').style.display = d.valid?'none':'block';
-    if(d.valid && d.credits!=null) document.getElementById('kok').textContent = '✓ Chave Pollo válida · Créditos: '+d.credits;
+    if(d.valid && d.credits!=null) document.getElementById('kok').textContent = 'Chave valida - Creditos: '+d.credits;
   } catch(e){ showErr('Erro: '+e.message); }
 }
 
@@ -278,10 +282,10 @@ async function generate(){
     if(!fotoUrl){
       const fd=new FormData();
       fd.append('image', fotoFile);
-      const ur=await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':falKey},body:fd});
+      fd.append('falKey', falKey);
+      const ur=await fetch('/api/upload',{method:'POST',body:fd});
       if(!ur.ok){ const e=await ur.json().catch(()=>({})); throw new Error(e.error||'Erro no upload da foto.'); }
       fotoUrl=(await ur.json()).url;
-      console.log('Foto URL:', fotoUrl.substring(0,60));
     }
 
     document.getElementById('pfill').style.width='15%';
@@ -290,8 +294,8 @@ async function generate(){
     // Gerar com Pollo 1.6
     const gr=await fetch('/api/generate',{
       method:'POST',
-      headers:{'x-api-key':polloKey,'Content-Type':'application/json'},
-      body:JSON.stringify({image_url:fotoUrl, prompt:model.prompt})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({image_url:fotoUrl, prompt:model.prompt, polloKey:polloKey})
     });
     if(!gr.ok){ const e=await gr.json().catch(()=>({})); throw new Error(e.error||'Erro ao iniciar geração.'); }
     const {taskId}=await gr.json();
@@ -307,7 +311,11 @@ async function generate(){
     while(att<max){
       await new Promise(r=>setTimeout(r,3000));
       att++;
-      const sr=await fetch('/api/status/'+taskId,{headers:{'x-api-key':polloKey}});
+      const sr=await fetch('/api/status/'+taskId,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({polloKey:polloKey})
+      });
       if(!sr.ok) continue;
       const sd=await sr.json();
       document.getElementById('pfill').style.width=prog[Math.min(att-1,prog.length-1)]+'%';
