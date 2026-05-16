@@ -10,11 +10,11 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Upload foto para fal.ai storage (Pollo 1.6 so aceita URL HTTPS)
+// Upload foto para fal.ai storage
 async function uploadToFal(buffer, mimetype, filename, falKey) {
   const init = await fetch('https://rest.alpha.fal.ai/storage/upload/initiate', {
     method: 'POST',
-    headers: { 'Authorization': `Key ${falKey}`, 'Content-Type': 'application/json' },
+    headers: { 'Authorization': 'Key ' + falKey, 'Content-Type': 'application/json' },
     body: JSON.stringify({ file_name: filename || 'photo.jpg', content_type: mimetype }),
   });
   if (!init.ok) {
@@ -29,12 +29,12 @@ async function uploadToFal(buffer, mimetype, filename, falKey) {
   return file_url;
 }
 
-// Upload da foto
+// Upload - chaves vem no body (FormData)
 app.post('/api/upload', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No image.' });
-    const falKey = req.headers['x-fal-key'];
-    if (!falKey) return res.status(400).json({ error: 'x-fal-key required.' });
+    const falKey = req.body.falKey;
+    if (!falKey) return res.status(400).json({ error: 'falKey required in form data.' });
     const url = await uploadToFal(req.file.buffer, req.file.mimetype, req.file.originalname, falKey);
     console.log('[UPLOAD OK]', url.substring(0, 80));
     res.json({ url });
@@ -44,13 +44,11 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
   }
 });
 
-// Gerar com Pollo 1.6
+// Gerar - chave vem no body JSON
 app.post('/api/generate', async (req, res) => {
   try {
-    const polloKey = req.headers['x-api-key'];
-    if (!polloKey) return res.status(401).json({ error: 'Pollo key missing.' });
-
-    const { image_url, prompt } = req.body;
+    const { polloKey, image_url, prompt } = req.body;
+    if (!polloKey) return res.status(401).json({ error: 'polloKey missing.' });
     if (!image_url || !prompt) return res.status(400).json({ error: 'image_url and prompt required.' });
 
     const body = {
@@ -64,7 +62,6 @@ app.post('/api/generate', async (req, res) => {
 
     console.log('[GENERATE] url:', image_url.substring(0, 80));
     console.log('[GENERATE] prompt len:', body.input.prompt.length);
-    console.log('[GENERATE] sending to Pollo 1.6...');
 
     const resp = await fetch('https://pollo.ai/api/platform/generation/pollo/pollo-v1-6', {
       method:  'POST',
@@ -79,7 +76,6 @@ app.post('/api/generate', async (req, res) => {
     if (!resp.ok) {
       let msg = raw.substring(0, 400);
       try { const e = JSON.parse(raw); msg = e.message || e.error || JSON.stringify(e); } catch(_) {}
-      console.error('[POLLO ERROR]', resp.status, msg);
       return res.status(resp.status).json({ error: msg });
     }
 
@@ -89,19 +85,19 @@ app.post('/api/generate', async (req, res) => {
 
     console.log('[GENERATE OK] taskId:', taskId);
     res.json({ taskId });
-
   } catch (err) {
     console.error('[GENERATE ERROR]', err.message);
     res.status(500).json({ error: err.message });
   }
 });
 
-// Status da geracao
-app.get('/api/status/:taskId', async (req, res) => {
+// Status - chave vem no body
+app.post('/api/status/:taskId', async (req, res) => {
   try {
-    const polloKey = req.headers['x-api-key'];
-    if (!polloKey) return res.status(401).json({ error: 'Key missing.' });
-    const resp = await fetch(`https://pollo.ai/api/platform/generation/${req.params.taskId}/status`, {
+    const { polloKey } = req.body;
+    if (!polloKey) return res.status(401).json({ error: 'polloKey missing.' });
+
+    const resp = await fetch('https://pollo.ai/api/platform/generation/' + req.params.taskId + '/status', {
       headers: { 'x-api-key': polloKey },
     });
     const raw = await resp.text();
@@ -121,12 +117,14 @@ app.get('/api/status/:taskId', async (req, res) => {
   }
 });
 
-// Saldo de creditos
-app.get('/api/credits', async (req, res) => {
+// Creditos - chave vem no body
+app.post('/api/credits', async (req, res) => {
   try {
-    const key = req.headers['x-api-key'];
-    if (!key) return res.status(401).json({ error: 'Key missing.' });
-    const r = await fetch('https://pollo.ai/api/platform/credit/balance', { headers: { 'x-api-key': key } });
+    const { polloKey } = req.body;
+    if (!polloKey) return res.status(401).json({ error: 'polloKey missing.' });
+    const r = await fetch('https://pollo.ai/api/platform/credit/balance', {
+      headers: { 'x-api-key': polloKey }
+    });
     const raw = await r.text();
     console.log('[CREDITS] status:', r.status, 'body:', raw);
     const valid = r.status !== 401;
