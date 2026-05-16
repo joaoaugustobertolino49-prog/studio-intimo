@@ -60,7 +60,7 @@ app.post('/api/generate', async (req, res) => {
       input: {
         image:      image_url,
         prompt:     truncatedPrompt,
-        resolution: '720p',
+        resolution: '480p',
         length:     5,
       }
     };
