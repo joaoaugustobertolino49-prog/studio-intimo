@@ -7,11 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --rose:#c94070;--rose-light:#fce8f0;--rose-dark:#7a1f40;
-  --dark:#1a0a12;--cream:#fdf6f0;--muted:#8a6a78;
-  --border:#e8d5de;--surface:#fff;--gold:#b8924a;--gold-light:#fdf3e0
-}
+:root{--rose:#c94070;--rose-light:#fce8f0;--rose-dark:#7a1f40;--dark:#1a0a12;--cream:#fdf6f0;--muted:#8a6a78;--border:#e8d5de;--surface:#fff;--gold:#b8924a;--gold-light:#fdf3e0}
 body{font-family:"DM Sans",sans-serif;background:var(--cream);color:var(--dark)}
 .app{max-width:720px;margin:0 auto;padding:1.5rem 1rem 4rem}
 header{text-align:center;padding:1.5rem 0 2rem}
@@ -19,25 +15,23 @@ header{text-align:center;padding:1.5rem 0 2rem}
 .brand em{color:var(--rose);font-style:italic}
 .tagline{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 .powered{font-size:11px;color:#ccc;margin-top:4px}.powered b{color:var(--gold)}
-
 .card{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;box-shadow:0 2px 12px rgba(201,64,112,.04)}
 .card h2{font-family:"Cormorant Garamond",serif;font-size:1.35rem;font-weight:400;color:var(--rose-dark);margin-bottom:4px}
 .card p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem}
-
-/* API KEY */
-.row{display:flex;gap:8px}
-.inp-wrap{flex:1;position:relative}
+.field{margin-bottom:.75rem}
+.field label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.inp-wrap{position:relative}
 .inp-wrap input{width:100%;border:.5px solid var(--border);border-radius:10px;padding:.7rem 2.8rem .7rem 1rem;font-family:"DM Sans",sans-serif;font-size:13px;background:#fafafa;outline:none;color:var(--dark);transition:border .2s}
 .inp-wrap input:focus{border-color:var(--rose);background:#fff}
 .eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--muted)}
-.btn-sm{padding:.7rem 1rem;border-radius:10px;background:var(--rose-light);border:.5px solid var(--border);color:var(--rose-dark);font-size:13px;cursor:pointer;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .2s}
+.row{display:flex;gap:8px;align-items:flex-end}
+.row .inp-wrap{flex:1}
+.btn-sm{padding:.7rem 1rem;border-radius:10px;background:var(--rose-light);border:.5px solid var(--border);color:var(--rose-dark);font-size:13px;cursor:pointer;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .2s;height:42px}
 .btn-sm:hover{background:var(--rose);color:#fff}
 .kbadge{display:none;font-size:12px;margin-top:6px;padding:3px 10px;border-radius:20px;width:fit-content}
 .kok{background:#f0faf0;color:#2a7a2a;border:.5px solid #90c890}
 .kerr{background:#fff0f0;color:#8a2020;border:.5px solid #f0a0a0}
-.klink{font-size:12px;color:var(--rose);text-decoration:none;display:inline-block;margin-top:6px}
-
-/* UPLOAD FOTO */
+.klink{font-size:12px;color:var(--rose);text-decoration:none;display:inline-block;margin-top:5px}
 .upload-box{border:1.5px dashed var(--border);border-radius:12px;background:#fafafa;cursor:pointer;position:relative;overflow:hidden;transition:all .2s}
 .upload-box:hover{border-color:var(--rose);background:var(--rose-light)}
 .upload-box input{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:5}
@@ -50,10 +44,8 @@ header{text-align:center;padding:1.5rem 0 2rem}
 .prev-over{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(26,10,18,.75));padding:.6rem 1rem;display:flex;justify-content:space-between;align-items:center}
 .prev-over span{color:#fff;font-size:12px}
 .chg{font-size:11px;background:rgba(255,255,255,.2);color:#fff;border:.5px solid rgba(255,255,255,.4);border-radius:6px;padding:3px 9px;cursor:pointer}
-
-/* MODELOS GRID */
 .models-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:540px){.models-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:520px){.models-grid{grid-template-columns:repeat(3,1fr)}}
 .model-card{border:2.5px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative;background:#111}
 .model-card:hover{border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,64,112,.2)}
 .model-card.sel{border-color:var(--rose);box-shadow:0 0 0 3px rgba(201,64,112,.25)}
@@ -64,18 +56,11 @@ header{text-align:center;padding:1.5rem 0 2rem}
 .model-desc{color:rgba(255,255,255,.7);font-size:10px;display:block;margin-top:2px}
 .model-check{position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--rose);color:#fff;font-size:12px;display:none;align-items:center;justify-content:center;pointer-events:none}
 .model-card.sel .model-check{display:flex}
-.model-coming{opacity:.5;cursor:default}
-.model-coming:hover{transform:none;box-shadow:none;border-color:var(--border)}
-.coming-badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:3px 8px;border-radius:10px}
-
 .info{background:var(--gold-light);border:.5px solid #d4a96a;border-radius:10px;padding:.85rem 1rem;font-size:12px;color:#6b4a1a;line-height:1.7;margin-top:.75rem}
 .errbox{background:#fff0f0;border:.5px solid #f0a0a0;border-radius:10px;padding:.85rem 1rem;font-size:13px;color:#8a2020;display:none;margin-top:.75rem}
-
 .gen-btn{width:100%;padding:1rem;background:linear-gradient(135deg,var(--rose),var(--rose-dark));color:#fff;border:none;border-radius:12px;font-family:"Cormorant Garamond",serif;font-size:1.3rem;letter-spacing:.08em;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(201,64,112,.3);margin-top:1.25rem}
 .gen-btn:hover:not(:disabled){box-shadow:0 6px 28px rgba(201,64,112,.45);transform:translateY(-1px)}
 .gen-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-
-/* LOADING */
 .loading{display:none;background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:2.5rem;text-align:center;margin-bottom:1.25rem}
 .dots{display:inline-flex;gap:7px;margin-bottom:1rem}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--rose);animation:pp 1.4s infinite}
@@ -83,11 +68,9 @@ header{text-align:center;padding:1.5rem 0 2rem}
 @keyframes pp{0%,100%{transform:scale(.5);opacity:.2}50%{transform:scale(1);opacity:1}}
 .ltitle{font-family:"Cormorant Garamond",serif;font-size:1.35rem;color:var(--rose-dark)}
 .lmsg{font-size:13px;color:var(--muted);font-style:italic;margin-top:.4rem}
-.timer{font-size:12px;color:var(--rose);margin-top:.3rem;font-weight:500}
+.ltimer{font-size:12px;color:var(--rose);margin-top:.3rem;font-weight:500}
 .pbar{margin-top:1.25rem;background:var(--border);border-radius:3px;height:3px;overflow:hidden}
 .pfill{height:100%;background:linear-gradient(90deg,var(--rose-light),var(--rose));border-radius:3px;transition:width 1s;width:0}
-
-/* RESULTADO */
 .result{display:none;background:var(--surface);border:.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(201,64,112,.12);margin-bottom:1.25rem}
 .result-media{width:100%;display:block}
 .result-btns{padding:1rem 1.25rem;display:flex;gap:8px;flex-wrap:wrap;border-top:.5px solid var(--border)}
@@ -99,33 +82,46 @@ header{text-align:center;padding:1.5rem 0 2rem}
 </head>
 <body>
 <div class="app">
-
 <header>
   <div class="brand">Studio <em>Intimo</em> IA</div>
   <div class="tagline">Ensaios digitais com inteligencia artificial</div>
-  <div class="powered">Powered by <b>Pollo AI · Pollo 2.0</b></div>
+  <div class="powered">Powered by <b>Pollo AI 1.6</b></div>
 </header>
 
-<!-- CHAVE API -->
+<!-- CHAVES API -->
 <div class="card">
-  <h2>🔑 Chave API — Pollo.ai</h2>
-  <p>Crie sua conta em pollo.ai, gere uma chave de API e cole abaixo. Fica salva só no navegador.</p>
-  <div class="row">
-    <div class="inp-wrap">
-      <input type="password" id="apiKey" placeholder="sua chave do pollo.ai..." oninput="saveKey()">
-      <button class="eye" onclick="toggleEye()">👁</button>
+  <h2>🔑 Chaves de API</h2>
+  <p>Você precisa de duas chaves: <strong>Pollo.ai</strong> para gerar o ensaio e <strong>fal.ai</strong> para hospedar a foto (obrigatório pois o Pollo só aceita URLs).</p>
+
+  <div class="field">
+    <label>Chave Pollo.ai</label>
+    <div class="row">
+      <div class="inp-wrap">
+        <input type="password" id="polloKey" placeholder="chave do pollo.ai..." oninput="saveKeys()">
+        <button class="eye" onclick="toggleEye('polloKey')">👁</button>
+      </div>
+      <button class="btn-sm" onclick="verifyKey()">Verificar</button>
     </div>
-    <button class="btn-sm" onclick="verifyKey()">Verificar</button>
+    <a class="klink" href="https://pollo.ai/api-platform/keys" target="_blank">→ pollo.ai/api-platform/keys</a>
   </div>
-  <div class="kbadge kok" id="kok">✓ Chave válida</div>
-  <div class="kbadge kerr" id="kerr">✗ Inválida ou sem créditos</div>
-  <a class="klink" href="https://pollo.ai/api-platform/keys" target="_blank">→ Criar chave em pollo.ai/api-platform/keys</a>
+
+  <div class="field">
+    <label>Chave fal.ai (para hospedar a foto)</label>
+    <div class="inp-wrap">
+      <input type="password" id="falKey" placeholder="fal-key-xxxxxxxx..." oninput="saveKeys()">
+      <button class="eye" onclick="toggleEye('falKey')">👁</button>
+    </div>
+    <a class="klink" href="https://fal.ai/dashboard/keys" target="_blank">→ fal.ai/dashboard/keys (grátis para criar conta)</a>
+  </div>
+
+  <div class="kbadge kok" id="kok">✓ Chave Pollo válida</div>
+  <div class="kbadge kerr" id="kerr">✗ Chave Pollo inválida ou sem créditos</div>
 </div>
 
-<!-- FOTO DA PESSOA -->
+<!-- FOTO -->
 <div class="card">
   <h2>📷 Foto da pessoa</h2>
-  <p>Envie uma foto com rosto bem visível e boa iluminação. O Pollo AI vai gerar o ensaio com as características dessa pessoa.</p>
+  <p>Envie uma foto com rosto e corpo visíveis. O Pollo 1.6 usa essa imagem como referência para gerar o ensaio.</p>
   <div class="upload-box" id="uploadBox">
     <input type="file" accept="image/jpeg,image/png,image/webp" id="fileInput" onchange="handleFile(event)">
     <div class="upload-inner">
@@ -143,13 +139,13 @@ header{text-align:center;padding:1.5rem 0 2rem}
   </div>
 </div>
 
-<!-- MODELOS DE ENSAIO -->
+<!-- MODELOS -->
 <div class="card">
-  <h2>✨ Escolha o modelo de ensaio</h2>
-  <p>Cada modelo tem um prompt profissional já configurado. Selecione e clique em gerar — sem precisar escrever nada.</p>
+  <h2>✨ Modelo de ensaio</h2>
+  <p>Selecione o estilo. O prompt profissional já está configurado — é só escolher e gerar.</p>
   <div class="models-grid" id="modelsGrid"></div>
   <div class="info" style="margin-top:1rem">
-    🎬 <strong>Como funciona:</strong> O Pollo 2.0 recebe sua foto + o prompt do modelo escolhido e gera automaticamente o ensaio. O processo leva entre 1 e 2 minutos.
+    🎬 <strong>Pollo 1.6:</strong> Gera um vídeo curto de 5 segundos em 720p no estilo escolhido usando sua foto como referência. O processo leva 1-2 minutos.
   </div>
   <div class="errbox" id="errbox"></div>
   <button class="gen-btn" id="genBtn" onclick="generate()">✨ Gerar Ensaio</button>
@@ -159,15 +155,15 @@ header{text-align:center;padding:1.5rem 0 2rem}
 <div class="loading" id="loading">
   <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
   <div class="ltitle">Gerando seu ensaio...</div>
-  <div class="lmsg" id="lmsg">Enviando para Pollo AI...</div>
-  <div class="timer" id="timer"></div>
+  <div class="lmsg" id="lmsg">Preparando...</div>
+  <div class="ltimer" id="ltimer"></div>
   <div class="pbar"><div class="pfill" id="pfill"></div></div>
 </div>
 
 <!-- RESULTADO -->
 <div class="result" id="result">
-  <img id="resultImg" class="result-media" src="" alt="Ensaio gerado" style="display:none">
-  <video id="resultVideo" class="result-media" controls style="display:none"></video>
+  <img id="resultImg" class="result-media" src="" alt="" style="display:none">
+  <video id="resultVideo" class="result-media" controls autoplay loop style="display:none"></video>
   <div class="result-btns">
     <button class="r-btn p" onclick="download()">⬇ Baixar</button>
     <button class="r-btn" onclick="window.open(resultUrl,'_blank')">🔗 Abrir</button>
@@ -190,215 +186,166 @@ const MODELS = [
 
 let sel = null;
 let fotoFile = null;
-let fotoB64  = null;
+let fotoUrl  = null;
 let resultUrl = '';
-let timerInterval = null;
-let startTime = null;
+let timerIv = null;
 
-// Restaurar chave
-const sk = localStorage.getItem('pollo_key');
-if(sk) document.getElementById('apiKey').value = sk;
+// Restaurar chaves
+const sk = localStorage.getItem('studio_keys');
+if(sk){ try{ const k=JSON.parse(sk); document.getElementById('polloKey').value=k.pollo||''; document.getElementById('falKey').value=k.fal||''; }catch(_){} }
 
-// Renderizar modelos
+function saveKeys(){
+  const pollo = document.getElementById('polloKey').value.trim();
+  const fal   = document.getElementById('falKey').value.trim();
+  localStorage.setItem('studio_keys', JSON.stringify({pollo, fal}));
+}
+function toggleEye(id){
+  const i = document.getElementById(id);
+  i.type = i.type==='password'?'text':'password';
+}
+async function verifyKey(){
+  const key = document.getElementById('polloKey').value.trim();
+  if(!key){ showErr('Digite a chave do Pollo.ai primeiro.'); return; }
+  try {
+    const r = await fetch('/api/credits', { headers:{'x-api-key':key} });
+    const d = await r.json();
+    document.getElementById('kok').style.display  = d.valid?'block':'none';
+    document.getElementById('kerr').style.display = d.valid?'none':'block';
+    if(d.valid && d.credits!=null) document.getElementById('kok').textContent = '✓ Chave Pollo válida · Créditos: '+d.credits;
+  } catch(e){ showErr('Erro: '+e.message); }
+}
+
 function renderModels(){
-  const grid = document.getElementById('modelsGrid');
-  grid.innerHTML = '';
-  MODELS.forEach((m, i) => {
-    const div = document.createElement('div');
-    div.className = 'model-card' + (m.coming ? ' model-coming' : '');
-    div.id = 'model-' + i;
-    div.innerHTML = `
-      <img class="model-thumb" src="${m.thumb}" alt="${m.label}">
-      <div class="model-info">
-        <span class="model-label">${m.label}</span>
-        <span class="model-desc">${m.desc}</span>
-      </div>
-      <div class="model-check">✓</div>
-      ${m.coming ? '<div class="coming-badge">Em breve</div>' : ''}
-    `;
-    if(!m.coming){
-      div.addEventListener('click', () => selectModel(i));
-    }
-    grid.appendChild(div);
+  const g = document.getElementById('modelsGrid');
+  g.innerHTML='';
+  MODELS.forEach((m,i)=>{
+    const d=document.createElement('div');
+    d.className='model-card';
+    d.id='m'+i;
+    d.innerHTML=`<img class="model-thumb" src="${m.thumb}" alt="${m.label}">
+      <div class="model-info"><span class="model-label">${m.label}</span><span class="model-desc">${m.desc}</span></div>
+      <div class="model-check">✓</div>`;
+    d.addEventListener('click',()=>selModel(i));
+    g.appendChild(d);
   });
 }
 renderModels();
 
-function selectModel(i){
-  document.querySelectorAll('.model-card').forEach(c => c.classList.remove('sel'));
-  document.getElementById('model-'+i).classList.add('sel');
-  sel = i;
-  hideErr();
-}
-
-function saveKey(){
-  const v = document.getElementById('apiKey').value.trim();
-  if(v.length > 10) localStorage.setItem('pollo_key', v);
-}
-function toggleEye(){
-  const i = document.getElementById('apiKey');
-  i.type = i.type === 'password' ? 'text' : 'password';
-}
-async function verifyKey(){
-  const key = document.getElementById('apiKey').value.trim();
-  if(!key){ showErr('Digite sua chave primeiro.'); return; }
-  try {
-    const r = await fetch('/api/credits', { headers: {'x-api-key': key} });
-    const d = await r.json();
-    document.getElementById('kok').style.display  = d.valid ? 'block' : 'none';
-    document.getElementById('kerr').style.display = d.valid ? 'none' : 'block';
-    if(d.valid && d.credits !== null) {
-      document.getElementById('kok').textContent = `✓ Chave válida · Créditos: ${d.credits}`;
-    }
-  } catch(e){ showErr('Erro ao verificar: ' + e.message); }
+function selModel(i){
+  document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('m'+i).classList.add('sel');
+  sel=i; hideErr();
 }
 
 function handleFile(e){
-  const f = e.target.files[0];
+  const f=e.target.files[0];
   if(!f) return;
-  if(f.size > 10*1024*1024){ showErr('Foto muito grande. Máximo 10MB.'); return; }
-  fotoFile = f;
-  fotoB64  = null;
-  document.getElementById('prevImg').src = URL.createObjectURL(f);
-  document.getElementById('prev').style.display = 'block';
-  document.getElementById('uploadBox').style.display = 'none';
+  if(f.size>10*1024*1024){showErr('Foto muito grande. Máximo 10MB.');return;}
+  fotoFile=f; fotoUrl=null;
+  document.getElementById('prevImg').src=URL.createObjectURL(f);
+  document.getElementById('prev').style.display='block';
+  document.getElementById('uploadBox').style.display='none';
   hideErr();
 }
 
 function startTimer(){
-  startTime = Date.now();
-  timerInterval = setInterval(() => {
-    const s = Math.floor((Date.now() - startTime) / 1000);
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    document.getElementById('timer').textContent = `${m}:${sec.toString().padStart(2,'0')} • média: 1-2 min`;
-  }, 1000);
+  const t0=Date.now();
+  timerIv=setInterval(()=>{
+    const s=Math.floor((Date.now()-t0)/1000);
+    document.getElementById('ltimer').textContent=
+      Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0')+' · média 1-2 min';
+  },1000);
 }
-function stopTimer(){
-  if(timerInterval) clearInterval(timerInterval);
-  document.getElementById('timer').textContent = '';
-}
+function stopTimer(){ clearInterval(timerIv); document.getElementById('ltimer').textContent=''; }
 
 async function generate(){
-  const key = document.getElementById('apiKey').value.trim();
-  if(!key)      { showErr('Insira sua chave API do Pollo.ai.'); return; }
-  if(!fotoFile) { showErr('Adicione a foto da pessoa.'); return; }
+  const polloKey = document.getElementById('polloKey').value.trim();
+  const falKey   = document.getElementById('falKey').value.trim();
+  if(!polloKey){ showErr('Insira a chave do Pollo.ai.'); return; }
+  if(!falKey)  { showErr('Insira a chave do fal.ai para hospedar a foto.'); return; }
+  if(!fotoFile){ showErr('Adicione a foto da pessoa.'); return; }
   if(sel===null){ showErr('Selecione um modelo de ensaio.'); return; }
 
   const model = MODELS[sel];
-
-  document.getElementById('genBtn').disabled = true;
-  document.getElementById('result').style.display = 'none';
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('pfill').style.width = '3%';
-  document.getElementById('lmsg').textContent = 'Convertendo foto...';
-  hideErr();
-  startTimer();
+  document.getElementById('genBtn').disabled=true;
+  document.getElementById('result').style.display='none';
+  document.getElementById('loading').style.display='block';
+  document.getElementById('pfill').style.width='3%';
+  document.getElementById('lmsg').textContent='Fazendo upload da foto...';
+  hideErr(); startTimer();
 
   try {
-    // Converter foto para base64 via servidor
-    if(!fotoB64){
-      const fd = new FormData();
+    // Upload da foto para fal.ai storage (URL pública para o Pollo)
+    if(!fotoUrl){
+      const fd=new FormData();
       fd.append('image', fotoFile);
-      const ur = await fetch('/api/upload', { method:'POST', body:fd });
-      if(!ur.ok){ const e=await ur.json().catch(()=>({})); throw new Error(e.error||'Erro no upload.'); }
-      fotoB64 = (await ur.json()).url;
+      const ur=await fetch('/api/upload',{method:'POST',headers:{'x-fal-key':falKey},body:fd});
+      if(!ur.ok){ const e=await ur.json().catch(()=>({})); throw new Error(e.error||'Erro no upload da foto.'); }
+      fotoUrl=(await ur.json()).url;
+      console.log('Foto URL:', fotoUrl.substring(0,60));
     }
 
-    document.getElementById('lmsg').textContent = 'Enviando para Pollo AI...';
-    document.getElementById('pfill').style.width = '10%';
+    document.getElementById('pfill').style.width='15%';
+    document.getElementById('lmsg').textContent='Enviando para Pollo 1.6...';
 
-    // Iniciar geração
-    const gr = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'x-api-key': key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image_base64: fotoB64, prompt: model.prompt })
+    // Gerar com Pollo 1.6
+    const gr=await fetch('/api/generate',{
+      method:'POST',
+      headers:{'x-api-key':polloKey,'Content-Type':'application/json'},
+      body:JSON.stringify({image_url:fotoUrl, prompt:model.prompt})
     });
     if(!gr.ok){ const e=await gr.json().catch(()=>({})); throw new Error(e.error||'Erro ao iniciar geração.'); }
+    const {taskId}=await gr.json();
+    if(!taskId) throw new Error('taskId não retornado.');
 
-    const gd = await gr.json();
-    const taskId = gd.taskId;
-    if(!taskId) throw new Error('taskId não retornado pelo Pollo.');
+    document.getElementById('pfill').style.width='25%';
+    document.getElementById('lmsg').textContent='Processando no Pollo AI...';
 
-    document.getElementById('pfill').style.width = '20%';
-    document.getElementById('lmsg').textContent = 'Processando no Pollo AI...';
+    // Polling
+    let att=0; const max=80;
+    const prog=Array.from({length:60},(_,i)=>25+Math.floor(i*70/60));
 
-    // Polling até ficar pronto
-    let attempts = 0;
-    const maxAttempts = 80; // ~4 min máx
-    const progSteps = Array.from({length:60}, (_,i) => 20 + Math.floor(i * (78/60)));
-
-    while(attempts < maxAttempts){
-      await new Promise(r => setTimeout(r, 3000));
-      attempts++;
-
-      const sr = await fetch('/api/status/'+taskId, { headers:{'x-api-key':key} });
+    while(att<max){
+      await new Promise(r=>setTimeout(r,3000));
+      att++;
+      const sr=await fetch('/api/status/'+taskId,{headers:{'x-api-key':polloKey}});
       if(!sr.ok) continue;
-      const sd = await sr.json();
+      const sd=await sr.json();
+      document.getElementById('pfill').style.width=prog[Math.min(att-1,prog.length-1)]+'%';
+      if(att<=8) document.getElementById('lmsg').textContent='Analisando a foto...';
+      else if(att<=20) document.getElementById('lmsg').textContent='Gerando o ensaio...';
+      else if(att<=35) document.getElementById('lmsg').textContent='Renderizando detalhes...';
+      else document.getElementById('lmsg').textContent='Quase pronto...';
 
-      const prog = progSteps[Math.min(attempts-1, progSteps.length-1)];
-      document.getElementById('pfill').style.width = prog + '%';
-
-      if(attempts <= 10) document.getElementById('lmsg').textContent = 'Analisando foto e aplicando estilo...';
-      else if(attempts <= 25) document.getElementById('lmsg').textContent = 'Gerando o ensaio... aguarde';
-      else if(attempts <= 40) document.getElementById('lmsg').textContent = 'Renderizando detalhes finais...';
-      else document.getElementById('lmsg').textContent = 'Quase pronto...';
-
-      if(sd.status === 'succeed' && sd.url){
-        document.getElementById('pfill').style.width = '100%';
-        resultUrl = sd.url;
-        stopTimer();
-        setTimeout(() => {
-          document.getElementById('loading').style.display = 'none';
-          // Exibir imagem ou vídeo conforme retorno
-          if(sd.mediaType === 'video' || sd.url.includes('.mp4')){
-            document.getElementById('resultVideo').src = sd.url;
-            document.getElementById('resultVideo').style.display = 'block';
-            document.getElementById('resultImg').style.display = 'none';
-          } else {
-            document.getElementById('resultImg').src = sd.url;
-            document.getElementById('resultImg').style.display = 'block';
-            document.getElementById('resultVideo').style.display = 'none';
-          }
-          document.getElementById('result').style.display = 'block';
-          document.getElementById('genBtn').disabled = false;
-        }, 500);
+      if(sd.status==='succeed' && sd.url){
+        document.getElementById('pfill').style.width='100%';
+        resultUrl=sd.url; stopTimer();
+        setTimeout(()=>{
+          document.getElementById('loading').style.display='none';
+          const isVideo=sd.mediaType==='video'||sd.url.includes('.mp4');
+          document.getElementById('resultVideo').style.display=isVideo?'block':'none';
+          document.getElementById('resultImg').style.display=isVideo?'none':'block';
+          if(isVideo) document.getElementById('resultVideo').src=sd.url;
+          else document.getElementById('resultImg').src=sd.url;
+          document.getElementById('result').style.display='block';
+          document.getElementById('genBtn').disabled=false;
+        },500);
         return;
       }
-
-      if(sd.status === 'failed'){
-        throw new Error(sd.failMsg || 'Geração falhou no Pollo AI. Tente novamente.');
-      }
+      if(sd.status==='failed') throw new Error(sd.failMsg||'Geração falhou no Pollo.');
     }
-
-    throw new Error('Timeout: geração demorou mais de 4 minutos. Tente novamente.');
-
+    throw new Error('Timeout após 4 minutos. Tente novamente.');
   } catch(err){
     stopTimer();
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('genBtn').disabled = false;
-    showErr('❌ ' + err.message);
+    document.getElementById('loading').style.display='none';
+    document.getElementById('genBtn').disabled=false;
+    showErr('❌ '+err.message);
   }
 }
 
-function novamente(){
-  document.getElementById('result').style.display = 'none';
-  document.getElementById('genBtn').disabled = false;
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-function trocar(){
-  document.getElementById('result').style.display = 'none';
-  sel = null;
-  document.querySelectorAll('.model-card').forEach(c => c.classList.remove('sel'));
-  document.getElementById('modelsGrid').scrollIntoView({behavior:'smooth'});
-}
-function download(){
-  const a = document.createElement('a');
-  a.href = resultUrl;
-  a.download = 'ensaio-' + Date.now() + (resultUrl.includes('.mp4') ? '.mp4' : '.jpg');
-  a.target = '_blank';
-  a.click();
-}
+function novamente(){ document.getElementById('result').style.display='none'; document.getElementById('genBtn').disabled=false; }
+function trocar(){ document.getElementById('result').style.display='none'; sel=null; document.querySelectorAll('.model-card').forEach(c=>c.classList.remove('sel')); document.getElementById('modelsGrid').scrollIntoView({behavior:'smooth'}); }
+function download(){ const a=document.createElement('a'); a.href=resultUrl; a.download='ensaio-'+Date.now()+(resultUrl.includes('.mp4')?'.mp4':'.jpg'); a.target='_blank'; a.click(); }
 function showErr(m){ const el=document.getElementById('errbox'); el.textContent=m; el.style.display='block'; }
 function hideErr(){ document.getElementById('errbox').style.display='none'; }
 </script>
